@@ -19,12 +19,7 @@ dumbmessage = None
 client = commands.Bot(command_prefix="!", help_command=None)
 
 
-# @client.command()
-# async def nasa(ctx):
-#     await ctx.send(NASAapi.nasapic())
-
 # Cat api function import
-
 @client.command()  # Simple Help command
 async def help(ctx):
     await ctx.send(
@@ -276,19 +271,3 @@ async def on_ready():
 
 
 client.run(Token.TOKEN)
-
-# PARMS OBJECT LIST
-# {'is_online': True,
-#  'ip': 'game-fr-14.mtxserv.com',
-#  'port': '27180',
-#  'game': 'minecraft',
-#  'params': {'gametype': 'SMP',
-#  'host_name': 'Keengs Do 1.17 !',
-#  'joinlink': 'minecraft://game-fr-14.mtxserv.com:27185/',
-#  'map': 'world',
-#  'max_slots': '40',
-#  'password': False,
-#  'players': [],
-#  'plugins': 'CraftBukkit on Bukkit 1.17-R0.1-SNAPSHOT: DeathCounter 1.1;
-#   LuckPerms 5.3.47; SinglePlayerSleep 1.13_2.13.46;
-#    TreeFeller 1.16.1', 'teams': [], 'type': 'minecraft', 'used_slots': '0', 'version': '1.17'}}
