@@ -8,10 +8,10 @@ import requests
 from discord.ext import commands
 from discord.ext.commands import has_permissions, bot_has_permissions
 
+import Apis
 # API/Token IMPORTS
 import Token
 import VALapi
-import Apis
 
 global dumbmessage
 dumbmessage = None
@@ -27,11 +27,12 @@ client = commands.Bot(command_prefix="!", help_command=None)
 
 @client.command()  # Simple Help command
 async def help(ctx):
-    await ctx.send('**!keengs - !cat - !dog - !meme - !booba - !agent - !comp "map" (please specify map :D).**')
+    await ctx.send(
+        '**!keengs - !cat - !dog - !meme - !booba - !agent - !comp "map" (please specify map :D) - !joke - !rude.**')
     return
 
 
-@client.event # Simple command to reply with poop when poop is said
+@client.event  # Simple command to reply with poop when poop is said
 async def on_message(message):
     await client.process_commands(message)
     # don't respond to ourselves
@@ -40,6 +41,18 @@ async def on_message(message):
 
     if 'poop' in message.content.lower():
         await message.channel.send('Poopy pants :poop:')
+    return
+
+
+@client.event  # Simple command to reply with gay when gay is said
+async def on_message(message):
+    await client.process_commands(message)
+    # don't respond to ourselves
+    if message.author == client.user:
+        return
+
+    if 'gay' in message.content.lower():
+        await message.channel.send('you are gae')
     return
 
 
@@ -56,11 +69,13 @@ async def dog(ctx):
     await ctx.send(Apis.dogpic())
     return
 
+
 # Joke Api function import
 @client.command()
 async def joke(ctx):
     await ctx.send(Apis.joke())
     return
+
 
 # Meme api function import
 @client.command()
@@ -189,7 +204,7 @@ async def keengs(ctx):
     return
 
 
-@client.command() # A command to show all map availbale
+@client.command()  # A command to show all map availbale
 async def map(ctx):
     await ctx.send('Haven - Split - Bind - IceBox - Breeze - Acesnt ')
 

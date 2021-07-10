@@ -4,12 +4,14 @@ import urllib.request
 
 import requests
 
+
 # INSULT API
 def insult():
     r = requests.get('https://evilinsult.com/generate_insult.php?lang=en&type=json')
     json_data = r.json()
     ins = json_data['insult']
     return ins
+
 
 # MEME API
 def subbreddit():
@@ -32,6 +34,7 @@ def subbreddit():
     memedict = {'title': title, 'url': url}
     return memedict
 
+
 # DOG API
 def dogpic():
     r = requests.get('https://dog.ceo/api/breeds/image/random')
@@ -41,6 +44,7 @@ def dogpic():
     doggie = url
 
     return doggie
+
 
 # CAT API
 def catapi():
@@ -52,7 +56,7 @@ def catapi():
     return data[0].get('url')
 
 
-#NSFW API
+# NSFW API
 def booba():
     cat = [
         'NSFW',
@@ -70,6 +74,7 @@ def booba():
 
     return pron
 
+
 # NASA API
 def nasapic():
     r = requests.get('https://api.nasa.gov/planetary/apod?api_key=p1zFjT1gmWhQ1fg6bUQhdmqoY4APqEsgigovlYjX')
@@ -81,6 +86,7 @@ def nasapic():
                                 '*' + str(explain) + '*\n'
             + url)
     return nasa
+
 
 # {'copyright': 'Miguel Claro',
 # 'date': '2021-06-25',
