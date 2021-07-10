@@ -214,7 +214,7 @@ async def map(ctx):
 
 
 @client.command()
-async def comp(ctx, choice='breeze'):
+async def comp(ctx, map='breeze'):
     if map == 'breeze':
         choice = 'https://media.valorant-api.com/maps/2fb9a4fd-47b8-4e7d-a969-74b4046ebd53/splash.png'
     elif map == 'split':

@@ -88,16 +88,6 @@ def nasapic():
     return nasa
 
 
-# {'copyright': 'Miguel Claro',
-# 'date': '2021-06-25',
-# 'explanation':
-# 'hdurl':
-# 'media_type': 'image',
-# 'service_version': 'v1',
-# 'title': 'Andromeda in a Single Shot',
-# 'url': 'https://apod.nasa.gov/apod/image/2106/AndromedaGalaxy-SingleShotMina-4688-net1200.jpg'}
-
-
 # JOKE API
 def joke():
     r = requests.get('https://v2.jokeapi.dev/joke/Any?blacklistFlags=racist,sexist&type=single')
