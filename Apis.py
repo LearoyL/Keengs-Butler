@@ -94,7 +94,7 @@ def nasapic():
 
 # JOKE API
 def joke():
-    r = requests.get('https://v2.jokeapi.dev/joke/Any?blacklistFlags=racist&type=single')
+    r = requests.get('https://v2.jokeapi.dev/joke/Any?blacklistFlags=racist,sexist&type=single')
     json_data = r.json()
     cat = json_data['category']
     joke = json_data['joke']
