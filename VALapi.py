@@ -54,7 +54,7 @@ def valcomp():
         compduel2 = duelist[rduel]
         compinit = initiators[rinit]
         finalcomp = '1 Sentinels - 1 Controller - 2 Duelist - 1 Initiators'
-        finalcomp2 ='' + compsent + ' -' + compcont + ' -' + compduel + ' -' + compduel2 + ' - ' + compinit + '.'
+        finalcomp2 ='' + compsent + ' - ' + compcont + ' - ' + compduel + ' - ' + compduel2 + ' - ' + compinit + '.'
     elif rcomp == 2:  # 2 Sentinels - 1 Controller - 1 Duelist - 1 Initiators
 
         compsent = sentinels[rsent]
@@ -65,7 +65,7 @@ def valcomp():
         compduel = duelist[rduel]
         compinit = initiators[rinit]
         finalcomp = '2 Sentinels - 1 Controller - 1 Duelist - 1 Initiators\n'
-        finalcomp2 = '' + compsent + ' -' + compsent2 + ' -' + compcont + ' -' + compduel + ' - ' + compinit + '.'
+        finalcomp2 = '' + compsent + ' - ' + compsent2 + ' - ' + compcont + ' - ' + compduel + ' - ' + compinit + '.'
     elif rcomp == 3:  # 0 Sentinels - 2 Controller - 1 Duelist - 2 Initiators
 
         compcont = controllers[rcont]
@@ -79,7 +79,7 @@ def valcomp():
         compinit2 = initiators[rinit]
 
         finalcomp = '0 Sentinels - 2 Controller - 1 Duelist - 2 Initiators'
-        finalcomp2 = '' + compcont + ' -' + compcont2 + ' -' + compduel + ' -' + compinit + ' - ' + compinit2 + '.'
+        finalcomp2 = '' + compcont + ' - ' + compcont2 + ' - ' + compduel + ' - ' + compinit + ' - ' + compinit2 + '.'
     elif rcomp == 4:  # 1 Sentinels - 0 Controller - 2 Duelist - 2 Initiators
         compsent = sentinels[rsent]
         compduel = duelist[rduel]
@@ -92,7 +92,7 @@ def valcomp():
         compinit2 = initiators[rinit]
 
         finalcomp = '1 Sentinels - 0 Controller - 2 Duelist - 2 Initiators'
-        finalcomp2 = '' + compsent + ' -' + compduel + ' -' + compduel2 + ' -' + compinit + ' - ' + compinit2 + '.'
+        finalcomp2 = '' + compsent + ' - ' + compduel + ' - ' + compduel2 + ' - ' + compinit + ' - ' + compinit2 + '.'
     embedcomp = {'comp': finalcomp, 'agents': finalcomp2, 'splash': splash}
     return embedcomp
 

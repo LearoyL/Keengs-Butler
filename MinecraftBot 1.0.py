@@ -9,12 +9,10 @@ from discord.ext import commands
 from discord.ext.commands import has_permissions, bot_has_permissions
 
 # API/Token IMPORTS
-import CATapi
-import DOGapi
 import MEMEapi
-import NSFWapi
 import Token
 import VALapi
+import Apis
 
 global dumbmessage
 dumbmessage = None
@@ -49,21 +47,26 @@ async def on_message(message):
 # Cat api function import
 @client.command()
 async def cat(ctx):
-    await ctx.send(CATapi.catapi())
+    await ctx.send(Apis.catapi())
     return
 
 
 # Dog api function import
 @client.command()
 async def dog(ctx):
-    await ctx.send(DOGapi.dogpic())
+    await ctx.send(Apis.dogpic())
     return
 
+# Joke Api function import
+@client.command()
+async def joke(ctx):
+    await ctx.send(Apis.joke())
+    return
 
 # Meme api function import
 @client.command()
 async def meme(ctx):
-    memedict = MEMEapi.subbreddit()
+    memedict = Apis.subbreddit()
     embed = discord.Embed(title=memedict['title'])
     embed.set_image(url=memedict['url'])
     await ctx.send(embed=embed)
@@ -79,10 +82,17 @@ def findmessage():
     return None
 
 
+@client.command()
+async def rude(ctx):
+    print(ctx)
+    await ctx.send(Apis.insult())
+    return
+
+
 @client.command()  # Boris Wanted Porn
 @bot_has_permissions(manage_messages=True)
 async def booba(ctx):
-    await ctx.send(NSFWapi.booba())
+    await ctx.send(Apis.booba())
     time.sleep(3)
     await ctx.channel.purge(limit=2)
     return
