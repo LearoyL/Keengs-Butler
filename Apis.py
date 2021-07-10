@@ -105,3 +105,11 @@ def joke():
     cat = json_data['category']
     joke = json_data['joke']
     return joke
+
+
+# Comliement API
+def Compliment():
+    r = requests.get('https://complimentr.com/api')
+    json_data = r.json()
+    comp = json_data['compliment']
+    return comp

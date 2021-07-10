@@ -36,6 +36,7 @@ async def help(ctx):
 async def on_message(message):
     await client.process_commands(message)
     # don't respond to ourselves
+    name = message.author.name
     if message.author == client.user:
         return
 
@@ -45,13 +46,15 @@ async def on_message(message):
     elif 'gay' in message.content.lower():
         await message.channel.send('you are gae')
 
-    role = discord.utils.get(message.guild.roles, name="Cora")
+    role = discord.utils.get(message.guild.roles, name="Cora-installed")
     role2 = discord.utils.get(message.guild.roles, name="rassan")
-
+    role3 = discord.utils.get(message.guild.roles, name="Compliment")
     if role in message.author.roles:
-        await message.channel.send(Apis.insult())
+        await message.channel.send(name + ' - ' + Apis.insult())
     elif role2 in message.author.roles:
-        await message.channel.send('Rassan: ' + Apis.insult())
+        await message.channel.send(name + ' - ' + Apis.insult())
+    elif role3 in message.author.roles:
+        await message.channel.send(name + ' - ' + Apis.Compliment())
     return
 
     return
