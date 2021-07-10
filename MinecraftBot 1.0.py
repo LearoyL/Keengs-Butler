@@ -8,8 +8,8 @@ import requests
 from discord.ext import commands
 from discord.ext.commands import has_permissions, bot_has_permissions
 
-import Apis
 # API/Token IMPORTS
+import Apis
 import Token
 import VALapi
 
@@ -41,18 +41,19 @@ async def on_message(message):
 
     if 'poop' in message.content.lower():
         await message.channel.send('Poopy pants :poop:')
+
+    elif 'gay' in message.content.lower():
+        await message.channel.send('you are gae')
+
+    role = discord.utils.get(message.guild.roles, name="Cora")
+    role2 = discord.utils.get(message.guild.roles, name="rassan")
+
+    if role in message.author.roles:
+        await message.channel.send(Apis.insult())
+    elif role2 in message.author.roles:
+        await message.channel.send('Rassan: ' + Apis.insult())
     return
 
-
-@client.event  # Simple command to reply with gay when gay is said
-async def on_message(message):
-    await client.process_commands(message)
-    # don't respond to ourselves
-    if message.author == client.user:
-        return
-
-    if 'gay' in message.content.lower():
-        await message.channel.send('you are gae')
     return
 
 
