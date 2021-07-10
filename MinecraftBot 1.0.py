@@ -9,7 +9,6 @@ from discord.ext import commands
 from discord.ext.commands import has_permissions, bot_has_permissions
 
 # API/Token IMPORTS
-import MEMEapi
 import Token
 import VALapi
 import Apis
