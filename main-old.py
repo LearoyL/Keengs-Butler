@@ -9,10 +9,7 @@ from discord.ext import commands
 from discord.ext.commands import has_permissions, bot_has_permissions
 
 # API/Token IMPORTS
-import CATapi
-import DOGapi
-import MEMEapi
-import NSFWapi
+import Apis
 import Token
 import VALapi
 
@@ -22,48 +19,67 @@ dumbmessage = None
 client = commands.Bot(command_prefix="!", help_command=None)
 
 
-# @client.command()
-# async def nasa(ctx):
-#     await ctx.send(NASAapi.nasapic())
-
 # Cat api function import
-
 @client.command()  # Simple Help command
 async def help(ctx):
-    await ctx.send('**!keengs - !cat - !dog - !meme - !booba - !agent - !comp "map" (please specify map :D).**')
+    await ctx.send(
+        '**!keengs - !cat - !dog - !meme - !booba - !agent - !comp "map" (please specify map :D) - !joke - !rude.**')
     return
 
 
-@client.event # Simple command to reply with poop when poop is said
+@client.event  # Simple command to reply with poop when poop is said
 async def on_message(message):
     await client.process_commands(message)
     # don't respond to ourselves
+    name = message.author.name
     if message.author == client.user:
         return
 
     if 'poop' in message.content.lower():
         await message.channel.send('Poopy pants :poop:')
+
+    elif 'gay' in message.content.lower():
+        await message.channel.send('you are gae')
+
+    role = discord.utils.get(message.guild.roles, name="Cora-installed")
+    role2 = discord.utils.get(message.guild.roles, name="rassan")
+    role3 = discord.utils.get(message.guild.roles, name="Compliment")
+    if role in message.author.roles:
+        await message.channel.send(name + ' - ' + Apis.insult())
+    elif role2 in message.author.roles:
+        await message.channel.send(name + ' - ' + Apis.insult())
+    elif role3 in message.author.roles:
+        await message.channel.send(name + ' - ' + Apis.Compliment())
+    return
+
     return
 
 
 # Cat api function import
 @client.command()
 async def cat(ctx):
-    await ctx.send(CATapi.catapi())
+    await ctx.send(Apis.catapi())
     return
 
 
 # Dog api function import
 @client.command()
 async def dog(ctx):
-    await ctx.send(DOGapi.dogpic())
+    await ctx.send(Apis.dogpic())
+    return
+
+
+# Joke Api function import
+@client.command()
+async def joke(ctx):
+    await ctx.send(Apis.joke())
     return
 
 
 # Meme api function import
 @client.command()
 async def meme(ctx):
-    memedict = MEMEapi.subbreddit()
+    memedict = Apis.subbreddit()
     embed = discord.Embed(title=memedict['title'])
     embed.set_image(url=memedict['url'])
     await ctx.send(embed=embed)
@@ -79,10 +95,17 @@ def findmessage():
     return None
 
 
+@client.command()
+async def rude(ctx):
+    print(ctx)
+    await ctx.send(Apis.insult())
+    return
+
+
 @client.command()  # Boris Wanted Porn
 @bot_has_permissions(manage_messages=True)
 async def booba(ctx):
-    await ctx.send(NSFWapi.booba())
+    await ctx.send(Apis.booba())
     time.sleep(3)
     await ctx.channel.purge(limit=2)
     return
@@ -180,13 +203,13 @@ async def keengs(ctx):
     return
 
 
-@client.command() # A command to show all map availbale
+@client.command()  # A command to show all map availbale
 async def map(ctx):
     await ctx.send('Haven - Split - Bind - IceBox - Breeze - Acesnt ')
 
 
 @client.command()
-async def comp(ctx, choice='breeze'):
+async def comp(ctx, map='breeze'):
     if map == 'breeze':
         choice = 'https://media.valorant-api.com/maps/2fb9a4fd-47b8-4e7d-a969-74b4046ebd53/splash.png'
     elif map == 'split':
@@ -248,19 +271,3 @@ async def on_ready():
 
 
 client.run(Token.TOKEN)
-
-# PARMS OBJECT LIST
-# {'is_online': True,
-#  'ip': 'game-fr-14.mtxserv.com',
-#  'port': '27180',
-#  'game': 'minecraft',
-#  'params': {'gametype': 'SMP',
-#  'host_name': 'Keengs Do 1.17 !',
-#  'joinlink': 'minecraft://game-fr-14.mtxserv.com:27185/',
-#  'map': 'world',
-#  'max_slots': '40',
-#  'password': False,
-#  'players': [],
-#  'plugins': 'CraftBukkit on Bukkit 1.17-R0.1-SNAPSHOT: DeathCounter 1.1;
-#   LuckPerms 5.3.47; SinglePlayerSleep 1.13_2.13.46;
-#    TreeFeller 1.16.1', 'teams': [], 'type': 'minecraft', 'used_slots': '0', 'version': '1.17'}}
