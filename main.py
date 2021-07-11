@@ -26,6 +26,13 @@ async def help(ctx):
         '**!keengs - !cat - !dog - !meme - !booba - !agent - !comp "map" (please specify map :D) - !joke - !rude.**')
     return
 
+@client.command()
+async def ping(ctx):
+    await ctx.send(f'Pong! {round (client.latency * 1000)} ms')
+    time.sleep(3)
+    await ctx.channel.purge(limit=2)
+    return
+
 
 @client.event  # Simple command to reply with poop when poop is said
 async def on_message(message):
