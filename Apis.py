@@ -5,6 +5,18 @@ import urllib.request
 import requests
 
 
+# Coin Flipper
+def coin():
+    range = [1, 2]
+    r = random.randrange(0, len(range))
+    flip = range[r]
+    if flip == 1:
+        res = 'Heads'
+    else:
+        res = 'Tails'
+    return res
+
+
 # INSULT API
 def insult():
     r = requests.get('https://evilinsult.com/generate_insult.php?lang=en&type=json')

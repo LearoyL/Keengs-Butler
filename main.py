@@ -23,8 +23,16 @@ client = commands.Bot(command_prefix="!", help_command=None)
 @client.command()  # Simple Help command
 async def help(ctx):
     await ctx.send(
-        '**!keengs - !cat - !dog - !meme - !booba - !agent - !comp "map" (please specify map :D) - !joke - !rude.**')
+        '**!flipcoin - !cat - !dog - !meme - !booba - !agent - !comp "map" (please specify map :D) - !joke - !rude.**')
     return
+
+
+@client.command()
+async def flipcoin(ctx):
+    coin = Apis.coin()
+    await ctx.send('A coin was flipped - **'+coin+'**')
+    return
+
 
 @client.command()
 async def ping(ctx):
