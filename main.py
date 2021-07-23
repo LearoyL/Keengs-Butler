@@ -28,7 +28,7 @@ async def help(ctx):
 
 
 @client.command()
-async def flipcoin(ctx):
+async def flip(ctx):
     coin = Apis.coin()
     await ctx.send('A coin was flipped - **'+coin+'**')
     return
