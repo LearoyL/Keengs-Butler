@@ -22,38 +22,38 @@ dumbmessage = None
 client = commands.Bot(command_prefix="!", description="A bot to handle all your Keeng needs", help_command=None)
 
 
-@client.command()
-async def roll(ctx):
-    def check(m):
-        return m.author == ctx.author and m.channel == ctx.channel
+# @client.command()
+# async def roll(ctx):
+#     def check(m):
+#         return m.author == ctx.author and m.channel == ctx.channel
+#
+#     msg = await ctx.send("How many sides are on each die?")
+#     sides = await client.wait_for('message', timeout=60, check=check)
+#     await msg.edit(content="How many dice are being rolled?")
+#     amount = await client.wait_for('message', timeout=60, check=check)
+#     await msg.edit(content="What is the mod of the roll?")
+#     mod = await client.wait_for('message', timeout=60, check=check)
+#     subtotal = 0
+#     for i in range(int(amount.content)):
+#         dice = random.randint(1, int(sides.content))
+#     print(dice)
+#     subtotal += dice
+#     if int(sides.content) == 20:
+#         if int(dice.content) == 1:
+#             await ctx.send("Damn thats tough. Nat 1.")
+#     if dice == 20:
+#         await ctx.send("thats a crit")
+#     total = subtotal + int(mod.content)
+#     await ctx.channel.purge(limit=4)
+#     await ctx.send(f"The total for all the dice rolled is {total}")
 
-    msg = await ctx.send("How many sides are on each die?")
-    sides = await client.wait_for('message', timeout=60, check=check)
-    await msg.edit(content="How many dice are being rolled?")
-    amount = await client.wait_for('message', timeout=60, check=check)
-    await msg.edit(content="What is the mod of the roll?")
-    mod = await client.wait_for('message', timeout=60, check=check)
-    subtotal = 0
-    for i in range(int(amount.content)):
-        dice = random.randint(1, int(sides.content))
-    print(dice)
-    subtotal += dice
-    if int(sides.content) == 20:
-        if int(dice.content) == 1:
-            await ctx.send("Damn thats tough. Nat 1.")
-    if dice == 20:
-        await ctx.send("thats a crit")
-    total = subtotal + int(mod.content)
-    await ctx.channel.purge(limit=4)
-    await ctx.send(f"The total for all the dice rolled is {total}")
 
-
-@roll.error
-async def on_error(ctx, error):
-    if isinstance(error, ValueError):
-        return await ctx.send("You are expected to put an integer value!")
-    if isinstance(error, asyncio.exceptions.TimeoutError):
-        return await ctx.send("You didn't respond on time, command timed out.")
+# @roll.error
+# async def on_error(ctx, error):
+#     if isinstance(error, ValueError):
+#         return await ctx.send("You are expected to put an integer value!")
+#     if isinstance(error, asyncio.exceptions.TimeoutError):
+#         return await ctx.send("You didn't respond on time, command timed out.")
 
 
 # Cat api function import
@@ -67,7 +67,13 @@ async def help(ctx):
 @client.command()
 async def flip(ctx):
     coin = Apis.coin()
-    await ctx.send('A coin was flipped - **' + coin + '**')
+    if coin == 'Heads':
+        choice = 'https://i.imgur.com/sHAvzPG.png'
+    else:
+        choice = 'https://i.imgur.com/wIKgAwA.png'
+    embed = discord.Embed(title='A coin was flipped!', description='')
+    embed.set_image(url=choice)
+    await ctx.send(embed=embed)
     return
 
 
