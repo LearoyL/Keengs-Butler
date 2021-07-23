@@ -68,9 +68,9 @@ async def help(ctx):
 async def flip(ctx):
     coin = Apis.coin()
     if coin == 'Heads':
-        choice = 'https://i.imgur.com/qPkr6YO.jpeg'
+        choice = 'https://cdn.discordapp.com/attachments/807717801128624168/868163587615645706/Hotpot1.png'
     else:
-        choice = 'https://i.imgur.com/px7RRPo.jpeg'
+        choice = 'https://cdn.discordapp.com/attachments/807717801128624168/868162855034310656/Hotpot.png'
     embed = discord.Embed(title='A coin was flipped!', description='')
     embed.set_image(url=choice)
     await ctx.send(embed=embed)
