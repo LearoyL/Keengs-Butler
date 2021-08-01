@@ -1,6 +1,7 @@
 # FUNCTION IMPORTS
 import time
 from datetime import datetime
+import os
 
 # DISCORD IMPORTS
 import discord
@@ -10,12 +11,12 @@ from discord.ext.commands import has_permissions, bot_has_permissions
 
 # API/Token IMPORTS
 import Apis
-import Token
 import VALapi
 from keep_alive import keep_alive
 
 global dumbmessage
 dumbmessage = None
+
 
 client = commands.Bot(command_prefix="!", description="A bot to handle all your Keeng needs", help_command=None)
 
@@ -337,6 +338,8 @@ async def on_ready():
     # await dumbmessage.add_reaction('🔄')
     return
 
-
+TOKEN = os.environ['TOKEN']
 keep_alive()
-client.run(Token.TOKEN)
+client.run(TOKEN)
+
+
