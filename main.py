@@ -1,6 +1,4 @@
 # FUNCTION IMPORTS
-import asyncio
-import random
 import time
 from datetime import datetime
 
@@ -22,38 +20,48 @@ dumbmessage = None
 client = commands.Bot(command_prefix="!", description="A bot to handle all your Keeng needs", help_command=None)
 
 
-# @client.command()
-# async def roll(ctx):
-#     def check(m):
-#         return m.author == ctx.author and m.channel == ctx.channel
-#
-#     msg = await ctx.send("How many sides are on each die?")
-#     sides = await client.wait_for('message', timeout=60, check=check)
-#     await msg.edit(content="How many dice are being rolled?")
-#     amount = await client.wait_for('message', timeout=60, check=check)
-#     await msg.edit(content="What is the mod of the roll?")
-#     mod = await client.wait_for('message', timeout=60, check=check)
-#     subtotal = 0
-#     for i in range(int(amount.content)):
-#         dice = random.randint(1, int(sides.content))
-#     print(dice)
-#     subtotal += dice
-#     if int(sides.content) == 20:
-#         if int(dice.content) == 1:
-#             await ctx.send("Damn thats tough. Nat 1.")
-#     if dice == 20:
-#         await ctx.send("thats a crit")
-#     total = subtotal + int(mod.content)
-#     await ctx.channel.purge(limit=4)
-#     await ctx.send(f"The total for all the dice rolled is {total}")
+@client.command()
+async def mkpoll(ctx, question='', *options):
+    numbers = ("1️⃣", "2⃣", "3⃣", "4⃣", "5⃣")
+    if len(options) > 5:
+        embed = discord.Embed(title='Poll-Error',
+                              description='You can only do 5 options dumbass.',
+                              colour=ctx.author.color,
+                              timestamp=datetime.utcnow())
+        embed.add_field(name='\u200b', value='\u200b')
+        await ctx.send(embed=embed)
+    elif question == '':
+        embed = discord.Embed(title='Poll-Error',
+                              description='Use thise format dummy "!mkpoll "title" option1 option2 etc"',
+                              colour=ctx.author.color,
+                              timestamp=datetime.utcnow())
+        embed.add_field(name='\u200b', value='\u200b')
+        await ctx.send(embed=embed)
+    elif options is ():
+        embed = discord.Embed(title='Poll-Error',
+                              description='Use thise format dummy "!mkpoll "title" option1 option2 etc"',
+                              colour=ctx.author.color,
+                              timestamp=datetime.utcnow())
+        embed.add_field(name='\u200b', value='\u200b')
+        await ctx.send(embed=embed)
+    elif question != '' and options != '':
+        embed = discord.Embed(title='Poll',
+                              description=question,
+                              colour=ctx.author.color,
+                              timestamp=datetime.utcnow())
+        fields = [("Options", "\n".join([f"{numbers[idx]} {option}" for idx, option in enumerate(options)]), False),
+                  ("Instructions", "Just react, it is really not that hard!", False)]
 
+        for name, value, inline in fields:
+            embed.add_field(name=name, value=value, inline=inline)
 
-# @roll.error
-# async def on_error(ctx, error):
-#     if isinstance(error, ValueError):
-#         return await ctx.send("You are expected to put an integer value!")
-#     if isinstance(error, asyncio.exceptions.TimeoutError):
-#         return await ctx.send("You didn't respond on time, command timed out.")
+        embed.set_footer(text='\u200b', icon_url="https://i.imgur.com/LnsoG2F.png")
+        message = await ctx.send(embed=embed)
+
+        for emoji in numbers[:len(options)]:
+            await message.add_reaction(emoji)
+
+    return
 
 
 # Cat api function import
