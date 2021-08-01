@@ -23,26 +23,27 @@ client = commands.Bot(command_prefix="!", description="A bot to handle all your 
 @client.command()
 async def mkpoll(ctx, question='', *options):
     numbers = ("1️⃣", "2⃣", "3⃣", "4⃣", "5⃣")
+    name = ctx.message.author.name
     if len(options) > 5:
         embed = discord.Embed(title='Poll-Error',
                               description='You can only do 5 options dumbass.',
                               colour=ctx.author.color,
                               timestamp=datetime.utcnow())
-        embed.add_field(name='\u200b', value='\u200b')
+        embed.set_footer(text='Poll by ' + ctx.message.author.name, icon_url="https://i.imgur.com/LnsoG2F.png")
         await ctx.send(embed=embed)
     elif question == '':
         embed = discord.Embed(title='Poll-Error',
                               description='Use thise format dummy "!mkpoll "title" option1 option2 etc"',
                               colour=ctx.author.color,
                               timestamp=datetime.utcnow())
-        embed.add_field(name='\u200b', value='\u200b')
+        embed.set_footer(text='Poll by ' + ctx.message.author.name, icon_url="https://i.imgur.com/LnsoG2F.png")
         await ctx.send(embed=embed)
     elif options is ():
         embed = discord.Embed(title='Poll-Error',
                               description='Use thise format dummy "!mkpoll "title" option1 option2 etc"',
                               colour=ctx.author.color,
                               timestamp=datetime.utcnow())
-        embed.add_field(name='\u200b', value='\u200b')
+        embed.set_footer(text='Poll by ' + ctx.message.author.name, icon_url="https://i.imgur.com/LnsoG2F.png")
         await ctx.send(embed=embed)
     elif question != '' and options != '':
         embed = discord.Embed(title='Poll',
@@ -55,7 +56,7 @@ async def mkpoll(ctx, question='', *options):
         for name, value, inline in fields:
             embed.add_field(name=name, value=value, inline=inline)
 
-        embed.set_footer(text='\u200b', icon_url="https://i.imgur.com/LnsoG2F.png")
+        embed.set_footer(text='Poll by '+ctx.message.author.name, icon_url="https://i.imgur.com/LnsoG2F.png")
         message = await ctx.send(embed=embed)
 
         for emoji in numbers[:len(options)]:
