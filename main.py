@@ -24,8 +24,6 @@ client = commands.Bot(command_prefix="!", description="A bot to handle all your 
 async def mkpoll(ctx, question='', *options):
     numbers = ("1️⃣", "2⃣", "3⃣", "4⃣", "5⃣")
     name = ctx.message.author.name
-    msg = ctx.message.id
-    print(id)
     if len(options) > 5:
         embed = discord.Embed(title='Poll-Error',
                               description='You can only do 5 options dumbass.',
@@ -58,12 +56,13 @@ async def mkpoll(ctx, question='', *options):
         for name, value, inline in fields:
             embed.add_field(name=name, value=value, inline=inline)
 
-        embed.set_footer(text='Poll by '+ctx.message.author.name, icon_url="https://i.imgur.com/LnsoG2F.png")
+        embed.set_footer(text='Poll by ' + ctx.message.author.name, icon_url="https://i.imgur.com/LnsoG2F.png")
         message = await ctx.send(embed=embed)
 
         for emoji in numbers[:len(options)]:
             await message.add_reaction(emoji)
-    await ctx.message.delete()
+    if ctx.channel.guild.me.guild_permissions.manage_messages:
+        await ctx.message.delete()
     return
 
 
