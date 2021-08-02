@@ -17,14 +17,18 @@ from keep_alive import keep_alive
 global dumbmessage
 dumbmessage = None
 
-
 client = commands.Bot(command_prefix="!", description="A bot to handle all your Keeng needs", help_command=None)
 
 
 @client.command()
-async def mkpoll(ctx, question='', *options):
+async def mkpoll(ctx, question='', everyone='', *options):
     numbers = ("1️⃣", "2⃣", "3⃣", "4⃣", "5⃣")
+    print(everyone)
     name = ctx.message.author.name
+    errorsyn = 'Use this format dummy.\n' \
+               '"!mkpoll "title" T/F option1 option2 etc - I.e True(T) or Flase(F)"'
+    if everyone == 'T':
+        await ctx.send(ctx.message.guild.default_role)
     if len(options) > 5:
         embed = discord.Embed(title='Poll-Error',
                               description='You can only do 5 options dumbass.',
@@ -32,27 +36,34 @@ async def mkpoll(ctx, question='', *options):
                               timestamp=datetime.utcnow())
         embed.set_footer(text='Poll by ' + ctx.message.author.name, icon_url="https://i.imgur.com/LnsoG2F.png")
         await ctx.send(embed=embed)
+    elif everyone != 'T' and everyone != 'F':
+        embed = discord.Embed(title='Poll-Error',
+                              description=errorsyn,
+                              colour=ctx.author.color,
+                              timestamp=datetime.utcnow())
+        embed.set_footer(text='Poll by ' + ctx.message.author.name, icon_url="https://i.imgur.com/LnsoG2F.png")
+        await ctx.send(embed=embed)
     elif question == '':
         embed = discord.Embed(title='Poll-Error',
-                              description='Use this format dummy "!mkpoll "title" option1 option2 etc"',
+                              description=errorsyn,
                               colour=ctx.author.color,
                               timestamp=datetime.utcnow())
         embed.set_footer(text='Poll by ' + ctx.message.author.name, icon_url="https://i.imgur.com/LnsoG2F.png")
         await ctx.send(embed=embed)
-    elif options is ():
+    elif options == ():
         embed = discord.Embed(title='Poll-Error',
-                              description='Use this format dummy "!mkpoll "title" option1 option2 etc"',
+                              description=errorsyn,
                               colour=ctx.author.color,
                               timestamp=datetime.utcnow())
         embed.set_footer(text='Poll by ' + ctx.message.author.name, icon_url="https://i.imgur.com/LnsoG2F.png")
         await ctx.send(embed=embed)
-    elif question != '' and options != '':
+    elif question != '' and options != '' and (everyone == 'T' or everyone == 'F'):
         embed = discord.Embed(title='Poll',
                               description=question,
                               colour=ctx.author.color,
                               timestamp=datetime.utcnow())
-        fields = [("Options", "\n".join([f"{numbers[idx]} {option}" for idx, option in enumerate(options)]), False),
-                  ("Instructions", "Just react, it is really not that hard!", False)]
+        fields = [('Options', '\n'.join([f'{numbers[idx]} {option}' for idx, option in enumerate(options)]), False),
+                  ('Instructions', 'Just react, it is really not that hard!', False)]
 
         for name, value, inline in fields:
             embed.add_field(name=name, value=value, inline=inline)
@@ -72,6 +83,12 @@ async def mkpoll(ctx, question='', *options):
 async def help(ctx):
     await ctx.send(
         '**!flipcoin - !cat - !dog - !meme - !booba - !agent - !comp "map" (please specify map :D) - !joke - !rude.**')
+    return
+
+
+@client.command()
+async def everyones(ctx):
+    await ctx.send(ctx.message.guild.default_role)
     return
 
 
@@ -338,8 +355,7 @@ async def on_ready():
     # await dumbmessage.add_reaction('🔄')
     return
 
+
 TOKEN = os.environ['TOKEN']
 keep_alive()
 client.run(TOKEN)
-
-
