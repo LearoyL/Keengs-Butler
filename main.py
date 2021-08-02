@@ -34,14 +34,14 @@ async def mkpoll(ctx, question='', *options):
         await ctx.send(embed=embed)
     elif question == '':
         embed = discord.Embed(title='Poll-Error',
-                              description='Use thise format dummy "!mkpoll "title" option1 option2 etc"',
+                              description='Use this format dummy "!mkpoll "title" option1 option2 etc"',
                               colour=ctx.author.color,
                               timestamp=datetime.utcnow())
         embed.set_footer(text='Poll by ' + ctx.message.author.name, icon_url="https://i.imgur.com/LnsoG2F.png")
         await ctx.send(embed=embed)
     elif options is ():
         embed = discord.Embed(title='Poll-Error',
-                              description='Use thise format dummy "!mkpoll "title" option1 option2 etc"',
+                              description='Use this format dummy "!mkpoll "title" option1 option2 etc"',
                               colour=ctx.author.color,
                               timestamp=datetime.utcnow())
         embed.set_footer(text='Poll by ' + ctx.message.author.name, icon_url="https://i.imgur.com/LnsoG2F.png")
