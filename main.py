@@ -49,7 +49,7 @@ async def mkpoll(ctx, question='', *options):
                               timestamp=datetime.utcnow())
         embed.set_footer(text='Poll by ' + ctx.message.author.name, icon_url="https://i.imgur.com/LnsoG2F.png")
         await ctx.send(embed=embed)
-    elif question != '' and options != '' and (everyone == 'T' or everyone == 'F'):
+    elif question != '' and options != '':
         embed = discord.Embed(title='Poll',
                               description=question,
                               colour=ctx.author.color,
