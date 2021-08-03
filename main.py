@@ -73,11 +73,12 @@ async def mkpoll(ctx, question='', *options):
 # Cat api function import
 @client.command()  # Simple Help command
 async def help(ctx):
+    print(ctx.author)
     valhelp = '!agent - !comp "map" (please specify map :D)'
     apihelp = '!cat - !dog - !meme - !booba'
     commonhelp = '!flipcoin - !joke - !rude - !mkpoll'
     embed = discord.Embed(title='Help Command',
-                          description='These are the available commands.',
+                          description='Here, '+str(ctx.author.mention)+', these are the available commands.',
                           colour=ctx.author.color,
                           timestamp=datetime.utcnow())
     embed.add_field(name='Valorant Commands', value=valhelp, inline=False)
