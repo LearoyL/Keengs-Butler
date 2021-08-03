@@ -21,14 +21,12 @@ client = commands.Bot(command_prefix="!", description="A bot to handle all your 
 
 
 @client.command()
-async def mkpoll(ctx, question='', everyone='', *options):
+async def mkpoll(ctx, question='', *options):
     numbers = ("1️⃣", "2⃣", "3⃣", "4⃣", "5⃣")
-    print(everyone)
-    name = ctx.message.author.name
+    author = ctx.message.author.name
     errorsyn = 'Use this format dummy.\n' \
-               '"!mkpoll "title" T/F option1 option2 etc - I.e True(T) or Flase(F)"'
-    if everyone == 'T':
-        await ctx.send(ctx.message.guild.default_role)
+               '"!mkpoll "title" option1 option2 etc "'
+
     if len(options) > 5:
         embed = discord.Embed(title='Poll-Error',
                               description='You can only do 5 options dumbass.',
@@ -36,13 +34,7 @@ async def mkpoll(ctx, question='', everyone='', *options):
                               timestamp=datetime.utcnow())
         embed.set_footer(text='Poll by ' + ctx.message.author.name, icon_url="https://i.imgur.com/LnsoG2F.png")
         await ctx.send(embed=embed)
-    elif everyone != 'T' and everyone != 'F':
-        embed = discord.Embed(title='Poll-Error',
-                              description=errorsyn,
-                              colour=ctx.author.color,
-                              timestamp=datetime.utcnow())
-        embed.set_footer(text='Poll by ' + ctx.message.author.name, icon_url="https://i.imgur.com/LnsoG2F.png")
-        await ctx.send(embed=embed)
+
     elif question == '':
         embed = discord.Embed(title='Poll-Error',
                               description=errorsyn,
@@ -81,8 +73,19 @@ async def mkpoll(ctx, question='', everyone='', *options):
 # Cat api function import
 @client.command()  # Simple Help command
 async def help(ctx):
-    await ctx.send(
-        '**!flipcoin - !cat - !dog - !meme - !booba - !agent - !comp "map" (please specify map :D) - !joke - !rude.**')
+    valhelp = '!agent - !comp "map" (please specify map :D)'
+    apihelp = '!cat - !dog - !meme - !booba'
+    commonhelp = '!flipcoin - !joke - !rude - !mkpoll'
+    embed = discord.Embed(title='Help Command',
+                          description='These are the available commands.',
+                          colour=ctx.author.color,
+                          timestamp=datetime.utcnow())
+    embed.add_field(name='Valorant Commands', value=valhelp, inline=False)
+    embed.add_field(name='Api Commands', value=apihelp, inline=False)
+    embed.add_field(name='Extra Commands', value=commonhelp, inline=False)
+
+    embed.set_footer(text='\u200b', icon_url="https://i.imgur.com/LnsoG2F.png")
+    await ctx.send(embed=embed)
     return
 
 
