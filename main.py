@@ -42,7 +42,7 @@ winningConditions = [
 
 
 @client.command()
-async def ttt(ctx, p1: discord.Member, p2: discord.Member):
+async def tictac(ctx, p1: discord.Member, p2: discord.Member):
     global count
     global player1
     global player2
