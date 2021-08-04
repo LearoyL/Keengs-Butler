@@ -222,6 +222,7 @@ async def help(ctx):
     valhelp = '!agent - !comp "map" (please specify map :D)'
     apihelp = '!cat - !dog - !meme - !booba'
     commonhelp = '!flipcoin - !joke - !rude - !mkpoll'
+    gamehelp = '!tictac (@ 2 people to play)'
     embed = discord.Embed(title='Help Command',
                           description='Here, ' + str(ctx.author.mention) + ', these are the available commands.',
                           colour=ctx.author.color,
@@ -229,6 +230,7 @@ async def help(ctx):
     embed.add_field(name='Valorant Commands', value=valhelp, inline=False)
     embed.add_field(name='Api Commands', value=apihelp, inline=False)
     embed.add_field(name='Extra Commands', value=commonhelp, inline=False)
+    embed.add_field(name="Game'ish Commands", value=gamehelp, inline=False)
 
     embed.set_footer(text='\u200b', icon_url="https://i.imgur.com/LnsoG2F.png")
     await ctx.send(embed=embed)
