@@ -148,7 +148,7 @@ def checkWinner(winningConditions, mark):
             gameOver = True
 
 
-@ttt.error
+@tictac.error
 async def tictactoe_error(ctx, error):
     print(error)
     if isinstance(error, commands.MissingRequiredArgument):
