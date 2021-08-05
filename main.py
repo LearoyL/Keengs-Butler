@@ -165,7 +165,7 @@ async def place_error(ctx, error):
 @client.command()
 async def mkpoll(ctx, question='', *options):
     numbers = ("1️⃣", "2⃣", "3⃣", "4⃣", "5⃣")
-    author = ctx.message.author.name
+    # author = ctx.message.author.name
     errorsyn = 'Use this format dummy.\n' \
                '"!mkpoll "title" option1 option2 etc "'
 

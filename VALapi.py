@@ -15,15 +15,15 @@ def valagent():
     desc = json_data['data'][ragent]['description']
     role = json_data['data'][ragent]['role']['displayName']
     icon = json_data['data'][ragent]['role']['displayIcon']
-    eagent = ('**' + name + '**\n'
-              + pic)
+    # eagent = ('**' + name + '**\n'
+    #           + pic)
     valdict = {'name': name, 'pic': pic, 'desc': desc, 'role': role, 'icon': icon}
     return valdict
 
 
 def valcomp():
     # Grabbing a map splash
-    rmap = random.randrange(0,6)
+    rmap = random.randrange(0, 6)
     r = requests.get('https://valorant-api.com/v1/maps')
     json_data = r.json()
     splash = json_data['data'][rmap]['splash']
@@ -31,7 +31,7 @@ def valcomp():
     # 2 Sentinels - 1 Controller - 1 Duelist - 1 Initiators
     # 0 Sentinels - 2 Controller - 1 Duelist - 2 Initiators
     # 1 Sentinels - 0 Controller - 2 Duelist - 2 Initiators
-    comps = {1: '1-1-2-1', 2: '2-1-1-1', 3: '0-2-1-2', 4: '1-0-2-2'}
+    # comps = {1: '1-1-2-1', 2: '2-1-1-1', 3: '0-2-1-2', 4: '1-0-2-2'}
     # Lists of agents
     sentinels = ['Sage', 'Cypher', 'Killjoy']
     controllers = ['Astra', 'Brimstone', 'Omen', 'Viper']
@@ -54,7 +54,7 @@ def valcomp():
         compduel2 = duelist[rduel]
         compinit = initiators[rinit]
         finalcomp = '1 Sentinels - 1 Controller - 2 Duelist - 1 Initiators'
-        finalcomp2 ='' + compsent + ' - ' + compcont + ' - ' + compduel + ' - ' + compduel2 + ' - ' + compinit + '.'
+        finalcomp2 = '' + compsent + ' - ' + compcont + ' - ' + compduel + ' - ' + compduel2 + ' - ' + compinit + '.'
     elif rcomp == 2:  # 2 Sentinels - 1 Controller - 1 Duelist - 1 Initiators
 
         compsent = sentinels[rsent]
@@ -95,4 +95,3 @@ def valcomp():
         finalcomp2 = '' + compsent + ' - ' + compduel + ' - ' + compduel2 + ' - ' + compinit + ' - ' + compinit2 + '.'
     embedcomp = {'comp': finalcomp, 'agents': finalcomp2, 'splash': splash}
     return embedcomp
-

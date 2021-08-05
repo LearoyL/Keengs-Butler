@@ -40,9 +40,9 @@ def subbreddit():
     json_data = r.json()
     title = json_data['title']
     url = json_data['url']
-
-    submeme = ('**' + title + '**\n'
-               + url)
+    #
+    # submeme = ('**' + title + '**\n'
+    #            + url)
     memedict = {'title': title, 'url': url}
     return memedict
 
@@ -96,7 +96,7 @@ def nasapic():
     title = ['tittle']
     nasa = ('**' + str(title) + '**\n'
                                 '*' + str(explain) + '*\n'
-            + url)
+            + str(url))
     return nasa
 
 
@@ -104,9 +104,9 @@ def nasapic():
 def joke():
     r = requests.get('https://v2.jokeapi.dev/joke/Any?blacklistFlags=racist,sexist&type=single')
     json_data = r.json()
-    cat = json_data['category']
-    joke = json_data['joke']
-    return joke
+    # cat = json_data['category']
+    return_joke = json_data['joke']
+    return return_joke
 
 
 # Comliement API
