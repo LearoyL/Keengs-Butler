@@ -537,7 +537,7 @@ async def on_ready():
     # print(msglist)
     client.get_channel(852117601803042868)
     # print(Channelname)
-    # await dumbmessage.add_reaction('🔄')
+    # await dumbmessage.add_reaction('🔄')x
     return
 
 
