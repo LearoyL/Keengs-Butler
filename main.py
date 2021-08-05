@@ -217,7 +217,7 @@ async def mkpoll(ctx, question='', *options):
 async def help(ctx):
     valhelp = '!agent - !comp "map" (please specify map :D)'
     apihelp = '!cat - !dog - !meme - !booba'
-    commonhelp = '!flipcoin - !joke - !rude - !mkpoll'
+    commonhelp = '!flip - !joke - !rude - !mkpoll'
     gamehelp = '!tictac (@ 2 people to play) - !roll - !numbergen'
     embed = discord.Embed(title='Help Command',
                           description='Here, ' + str(ctx.author.mention) + ', these are the available commands.',
