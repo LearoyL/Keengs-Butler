@@ -218,11 +218,10 @@ async def mkpoll(ctx, question='', *options):
 # Cat api function import
 @client.command()  # Simple Help command
 async def help(ctx):
-    print(ctx.author)
     valhelp = '!agent - !comp "map" (please specify map :D)'
     apihelp = '!cat - !dog - !meme - !booba'
     commonhelp = '!flipcoin - !joke - !rude - !mkpoll'
-    gamehelp = '!tictac (@ 2 people to play)'
+    gamehelp = '!tictac (@ 2 people to play) - !roll - !numbergen'
     embed = discord.Embed(title='Help Command',
                           description='Here, ' + str(ctx.author.mention) + ', these are the available commands.',
                           colour=ctx.author.color,
@@ -468,6 +467,7 @@ async def comp(ctx, map='breeze'):
     embed.add_field(name='Composition', value=embedcomp['comp'], inline=False)
     embed.set_image(url=choice)
     await ctx.send(embed=embed)
+    return
 
 
 @client.command()
@@ -481,9 +481,46 @@ async def agent(ctx):
     return
 
 
-# @client.command()
-# async def Message(ctx) :
-#     await ctx.send('Dummy message')
+@client.command()
+async def numbergen(ctx, n1: int, n2: int):
+    if n1 == '' or n2 == '':
+        await ctx.send('Use the format "!numbergen number(1) number(2)"')
+    elif n1 > n2:
+        await ctx.send('Make sure the first number is smaller than the second.')
+    elif n1 < 0 or n2 < 0:
+        await ctx.send('Use +ive numbers... smh.')
+    else:
+        number = random.randrange(n1, n2)
+        await ctx.send('You randomly generated number is ' + str(number))
+    return
+
+
+@numbergen.error
+async def numbergen_error(ctx, error):
+    if isinstance(error, commands.MissingRequiredArgument):
+        message = 'Use the format "!numbergen number(1) number(2)"'
+    await ctx.send(message)
+
+
+@client.command()
+async def roll(ctx, die_string: str):
+    dice, value = (int(term) for term in die_string.split("d"))
+
+    if dice <= 25:
+        rolls = [random.randint(1, value) for i in range(dice)]
+
+        await ctx.send(" + ".join([str(r) for r in rolls]) + f" = {sum(rolls)}")
+
+    else:
+        await ctx.send("I can't roll that many dice. Please try a lower number of dice.")
+
+
+@roll.error
+async def roll_error(ctx, error):
+    if isinstance(error, commands.MissingRequiredArgument):
+        message = 'Use the format "!roll (number of dice)d(number of sides)"'
+    await ctx.send(message)
+
 
 @client.event
 async def on_ready():
@@ -506,6 +543,10 @@ async def on_ready():
     # await dumbmessage.add_reaction('🔄')
     return
 
+
+# @client.command()
+# async def Message(ctx) :
+#     await ctx.send('Dummy message')
 
 TOKEN = os.environ['TOKEN']
 keep_alive()
