@@ -15,9 +15,6 @@ import Apis
 import VALapi
 from keep_alive import keep_alive
 
-global dumbmessage
-dumbmessage = None
-
 client = commands.Bot(command_prefix="!", description="A bot to handle all your Keeng needs", help_command=None)
 
 # TODO: figure out how to change an array then change it to a string after.
@@ -122,7 +119,7 @@ async def place(ctx, pos: int):
 
                 checkWinner(winningConditions, mark)
                 print(count)
-                if gameOver == True:
+                if gameOver:
                     await ctx.send(mark + " wins!, nice one!")
                 elif count >= 9:
                     gameOver = True
@@ -288,8 +285,6 @@ async def on_message(message):
         await message.channel.send(name + ' - ' + Apis.Compliment())
     return
 
-    return
-
 
 # Cat api function import
 @client.command()
@@ -440,23 +435,23 @@ async def keengs(ctx):
 
 
 @client.command()  # A command to show all map availbale
-async def map(ctx):
+async def valmap(ctx):
     await ctx.send('Haven - Split - Bind - IceBox - Breeze - Acesnt ')
 
 
 @client.command()
-async def comp(ctx, map='breeze'):
-    if map == 'breeze':
+async def comp(ctx, valmap='breeze'):
+    if valmap == 'breeze':
         choice = 'https://media.valorant-api.com/maps/2fb9a4fd-47b8-4e7d-a969-74b4046ebd53/splash.png'
-    elif map == 'split':
+    elif valmap == 'split':
         choice = 'https://media.valorant-api.com/maps/d960549e-485c-e861-8d71-aa9d1aed12a2/splash.png'
-    elif map == 'bind':
+    elif valmap == 'bind':
         choice = 'https://media.valorant-api.com/maps/2c9d57ec-4431-9c5e-2939-8f9ef6dd5cba/splash.png'
-    elif map == 'haven':
+    elif valmap == 'haven':
         choice = 'https://media.valorant-api.com/maps/2bee0dc9-4ffe-519b-1cbd-7fbe763a6047/splash.png'
-    elif map == 'icebox':
+    elif valmap == 'icebox':
         choice = 'https://media.valorant-api.com/maps/e2ad5c54-4114-a870-9641-8ea21279579a/splash.png'
-    elif map == 'ascent':
+    elif valmap == 'ascent':
         choice = 'https://media.valorant-api.com/maps/7eaecc1b-4337-bbf6-6ab9-04b8f06b3319/splash.png'
     else:
         embedcomp = VALapi.valcomp()
@@ -497,6 +492,7 @@ async def numbergen(ctx, n1: int, n2: int):
 
 @numbergen.error
 async def numbergen_error(ctx, error):
+    message = ''
     if isinstance(error, commands.MissingRequiredArgument):
         message = 'Use the format "!numbergen number(1) number(2)"'
     await ctx.send(message)
@@ -517,6 +513,7 @@ async def roll(ctx, die_string: str):
 
 @roll.error
 async def roll_error(ctx, error):
+    message = ''
     if isinstance(error, commands.MissingRequiredArgument):
         message = 'Use the format "!roll (number of dice)d(number of sides)"'
     await ctx.send(message)
