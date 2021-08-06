@@ -45,35 +45,28 @@ async def tictac(ctx, p1: discord.Member, p2: discord.Member):
     global player2
     global turn
     global gameOver
+    global finalboard
+    global gamemessage
 
     if gameOver:
         global board
         board = [":white_large_square:", ":white_large_square:", ":white_large_square:",
                  ":white_large_square:", ":white_large_square:", ":white_large_square:",
-                 ":white_large_square:", ":white_large_square:", ":white_large_square:"]
+                 ":white_large_square:", ":white_large_square:", ":white_large_square:",]
         turn = ""
         gameOver = False
         count = 0
-
+        # fakeboard = ''
+        # for i, x in enumerate(board):
+        #     fakeboard += x
+        #     if i == 2 or i == 5 or i == 8:
+        #         fakeboard += '\n'
+        # finalboard = fakeboard
         player1 = p1
         player2 = p2
-
-        embed = discord.Embed(title='TicTacToe')
-        embed.add_field(name='\u200b', value=':white_large_square: :white_large_square: :white_large_square:')
-        embed.add_field(name='\u200b', value=':white_large_square: :white_large_square: :white_large_square:',
-                        inline=False)
-        embed.add_field(name='\u200b', value=':white_large_square: :white_large_square: :white_large_square:',
-                        inline=False)
-
-        # print the board
-        line = ""
-        for x in range(len(board)):
-            if x == 2 or x == 5 or x == 8:
-                line += " " + board[x]
-                await ctx.send(line)
-                line = ""
-            else:
-                line += " " + board[x]
+        embed = discord.Embed(title='TicTacToe',)
+        embed.add_field(name='\u200b', value=fixboard(board))
+        gamemessage = await ctx.send(embed=embed)
 
         # determine who goes first
         num = random.randint(1, 2)
@@ -95,6 +88,8 @@ async def place(ctx, pos: int):
     global board
     global count
     global gameOver
+    global finalboard
+    global gamemessage
 
     if not gameOver:
         mark = ""
@@ -108,14 +103,14 @@ async def place(ctx, pos: int):
                 count += 1
 
                 # print the board
-                line = ""
-                for x in range(len(board)):
-                    if x == 2 or x == 5 or x == 8:
-                        line += " " + board[x]
-                        await ctx.send(line)
-                        line = ""
-                    else:
-                        line += " " + board[x]
+                if turn == player1:
+                    embed = discord.Embed(title='TicTacToe',description = "It is <@" + str(player2.id) + ">'s turn.")
+                    embed.add_field(name='\u200b', value=fixboard(board))
+
+                elif turn == player2:
+                    embed = discord.Embed(title='TicTacToe',description = "It is <@" + str(player1.id) + ">'s turn.")
+                    embed.add_field(name='\u200b', value=fixboard(board))
+                await gamemessage.edit(embed=embed)
 
                 checkWinner(winningConditions, mark)
                 print(count)
@@ -135,7 +130,7 @@ async def place(ctx, pos: int):
         else:
             await ctx.send("Wait your turn motherfucker.")
     else:
-        await ctx.send("What are you trying to place? do !tictactoe command.")
+        await ctx.send("What are you trying to place? do !tictac command.")
 
 
 def checkWinner(winningConditions, mark):
@@ -317,6 +312,15 @@ async def meme(ctx):
     return
 
 
+def fixboard(board):
+    fakeboard = ''
+    for i, x in enumerate(board):
+        fakeboard += x
+        if i == 2 or i == 5 or i == 8:
+            fakeboard += '\n'
+    finalboard = fakeboard
+    return finalboard
+
 def guilds():
     guilds = client.guilds
     return guilds
@@ -336,9 +340,8 @@ async def rude(ctx):
 @client.command()  # Boris Wanted Porn
 @bot_has_permissions(manage_messages=True)
 async def booba(ctx):
-    await ctx.send(Apis.booba())
-    time.sleep(3)
-    await ctx.channel.purge(limit=2)
+    await ctx.send(Apis.booba(), delete_after=3)
+
     return
 
 
