@@ -361,6 +361,14 @@ async def clear(ctx, amount=5):
     return
 
 
+@clear.error
+async def clear_error(ctx, error):
+    message = ''
+    if isinstance(error, commands.MissingPermissions):
+        message = 'You are a low idoit, cant do this.'
+    await ctx.send(message)
+
+
 @client.event  # Reaction command lines
 async def on_raw_reaction_add(ctx):
     # dd/mm/YY H:M:S
