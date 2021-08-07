@@ -20,7 +20,6 @@ TOKEN = os.environ['TOKEN']
 
 client = commands.Bot(command_prefix="!", description="A bot to handle all your Keeng needs", help_command=None)
 
-
 player1 = ""
 player2 = ""
 turn = ""
@@ -55,7 +54,7 @@ async def tictac(ctx, p1: discord.Member, p2: discord.Member):
         await client.change_presence(status=discord.Status.online, activity=discord.Game("Hold on X'O is going on!"))
         board = [":white_large_square:", ":white_large_square:", ":white_large_square:",
                  ":white_large_square:", ":white_large_square:", ":white_large_square:",
-                 ":white_large_square:", ":white_large_square:", ":white_large_square:",]
+                 ":white_large_square:", ":white_large_square:", ":white_large_square:", ]
         turn = ""
         gameOver = False
         count = 0
@@ -67,7 +66,7 @@ async def tictac(ctx, p1: discord.Member, p2: discord.Member):
         # finalboard = fakeboard
         player1 = p1
         player2 = p2
-        embed = discord.Embed(title='TicTacToe',)
+        embed = discord.Embed(title='TicTacToe', )
         embed.add_field(name='\u200b', value=fixboard(board))
         gamemessage = await ctx.send(embed=embed)
 
@@ -107,11 +106,11 @@ async def place(ctx, pos: int):
 
                 # print the board
                 if turn == player1:
-                    embed = discord.Embed(title='TicTacToe',description = "It is <@" + str(player2.id) + ">'s turn.")
+                    embed = discord.Embed(title='TicTacToe', description="It is <@" + str(player2.id) + ">'s turn.")
                     embed.add_field(name='\u200b', value=fixboard(board))
 
                 elif turn == player2:
-                    embed = discord.Embed(title='TicTacToe',description = "It is <@" + str(player1.id) + ">'s turn.")
+                    embed = discord.Embed(title='TicTacToe', description="It is <@" + str(player1.id) + ">'s turn.")
                     embed.add_field(name='\u200b', value=fixboard(board))
                 await gamemessage.edit(embed=embed)
 
@@ -144,6 +143,16 @@ def checkWinner(winningConditions, mark):
     for condition in winningConditions:
         if board[condition[0]] == mark and board[condition[1]] == mark and board[condition[2]] == mark:
             gameOver = True
+
+
+@client.command()
+async def tictacend(ctx):
+    global gameOver
+    if gameOver:
+        await ctx.send('There are no ongoing TicTacToe games.')
+    elif not gameOver:
+        gameOver = True
+        await ctx.send('TicTacToe game has ended. You can start one now.')
 
 
 @tictac.error
@@ -326,6 +335,7 @@ def fixboard(board):
             fakeboard += '\n'
     finalboard = fakeboard
     return finalboard
+
 
 def guilds():
     guilds = client.guilds
@@ -562,7 +572,4 @@ async def on_ready():
 # @client.command()
 # async def Message(ctx) :
 #     await ctx.send('Dummy message')
-
-TOKEN = os.environ['TOKEN']
-keep_alive()
 client.run(TOKEN)
