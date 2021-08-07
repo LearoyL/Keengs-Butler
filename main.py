@@ -17,7 +17,6 @@ import VALapi
 
 client = commands.Bot(command_prefix="!", description="A bot to handle all your Keeng needs", help_command=None)
 
-# TODO: figure out how to change an array then change it to a string after.
 
 player1 = ""
 player2 = ""
@@ -47,9 +46,10 @@ async def tictac(ctx, p1: discord.Member, p2: discord.Member):
     global gameOver
     global finalboard
     global gamemessage
+    global board
 
     if gameOver:
-        global board
+        await client.change_presence(status=discord.Status.online, activity=discord.Game("Hold on X'O is going on!"))
         board = [":white_large_square:", ":white_large_square:", ":white_large_square:",
                  ":white_large_square:", ":white_large_square:", ":white_large_square:",
                  ":white_large_square:", ":white_large_square:", ":white_large_square:",]
@@ -116,9 +116,11 @@ async def place(ctx, pos: int):
                 print(count)
                 if gameOver:
                     await ctx.send(mark + " wins!, nice one!")
+                    await client.change_presence(status=discord.Status.idle, activity=discord.Game('I AM THE BEST BOT'))
                 elif count >= 9:
                     gameOver = True
                     await ctx.send("Its a tie... You both lost.")
+                    await client.change_presence(status=discord.Status.idle, activity=discord.Game('I AM THE BEST BOT'))
 
                 # switch turns
                 if turn == player1:
@@ -131,6 +133,7 @@ async def place(ctx, pos: int):
             await ctx.send("Wait your turn motherfucker.")
     else:
         await ctx.send("What are you trying to place? do !tictac command.")
+    await ctx.message.delete()
 
 
 def checkWinner(winningConditions, mark):
@@ -341,6 +344,7 @@ async def rude(ctx):
 @bot_has_permissions(manage_messages=True)
 async def booba(ctx):
     await ctx.send(Apis.booba(), delete_after=3)
+    await ctx.message.delete()
 
     return
 
