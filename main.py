@@ -15,6 +15,9 @@ import Apis
 import VALapi
 from keep_alive import keep_alive
 
+keep_alive()
+TOKEN = os.environ['TOKEN']
+
 client = commands.Bot(command_prefix="!", description="A bot to handle all your Keeng needs", help_command=None)
 
 
