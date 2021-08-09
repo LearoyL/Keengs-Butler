@@ -150,9 +150,11 @@ async def tictacend(ctx):
     global gameOver
     if gameOver:
         await ctx.send('There are no ongoing TicTacToe games.')
+        await client.change_presence(status=discord.Status.idle, activity=discord.Game('I AM THE BEST BOT'))
     elif not gameOver:
         gameOver = True
         await ctx.send('TicTacToe game has ended. You can start one now.')
+        await client.change_presence(status=discord.Status.idle, activity=discord.Game('I AM THE BEST BOT'))
 
 
 @tictac.error
