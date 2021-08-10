@@ -17,7 +17,6 @@ from keep_alive import keep_alive
 
 keep_alive()
 TOKEN = os.environ['TOKEN']
-
 client = commands.Bot(command_prefix="!", description="A bot to handle all your Keeng needs", help_command=None)
 
 player1 = ""
@@ -230,7 +229,7 @@ async def help(ctx):
     valhelp = '!agent - !comp "map" (please specify map :D)'
     apihelp = '!cat - !dog - !meme - !booba'
     commonhelp = '!flip - !joke - !rude - !mkpoll'
-    gamehelp = '!tictac (@ 2 people to play) - !roll - !numbergen'
+    gamehelp = '!tictac (@ 2 people to play) - !hangman - !roll - !numbergen'
     embed = discord.Embed(title='Help Command',
                           description='Here, ' + str(ctx.author.mention) + ', these are the available commands.',
                           colour=ctx.author.color,
@@ -337,6 +336,35 @@ def fixboard(board):
             fakeboard += '\n'
     finalboard = fakeboard
     return finalboard
+
+
+def fixhangword(hangmanemptyspace, spaces) -> list:
+    emptyemoji = ':blue_square:'
+    i = 0
+    while i < int(spaces):
+        hangmanemptyspace.append(emptyemoji)
+        i += 1
+    print(hangmanemptyspace)
+    return hangmanemptyspace
+
+
+def printhangman(hangmanemptyspace):
+    global hangmanstring
+    hangmanstring1 = ''
+    for i, x in enumerate(hangmanemptyspace):
+        hangmanstring1 += x + ' '
+    hangmanstring = hangmanstring1
+    print(hangmanstring1)
+    return hangmanstring
+
+
+def hangmanchecker(hangmanstring):
+    global hangmanover
+    if ':blue_square:' in hangmanstring:
+        hangmanover = False
+    else:
+        hangmanover = True
+    return hangmanover
 
 
 def guilds():
@@ -547,6 +575,97 @@ async def roll_error(ctx, error):
     if isinstance(error, commands.MissingRequiredArgument):
         message = 'Use the format "!roll (number of dice)d(number of sides)"'
     await ctx.send(message)
+
+
+hangmanover = True
+hangmanemptyspace = []
+
+
+@client.command()
+async def hangman(ctx):
+    global hangword
+    global spaces
+    global spacesword
+    global hangingman
+    global hangmanover
+    global listhangword
+
+    if hangmanover:
+        hangmanover = False
+        hangword = Apis.randomword()
+        spaces = len(hangword)
+        spacesword = ':blue_square: ' * int(spaces)
+        fixhangword(hangmanemptyspace, spaces)
+        embed = discord.Embed(title='HangMan with Keengs :skull:',
+                              description='Guess by !hang "letter"',
+                              colour=ctx.author.color,
+                              timestamp=datetime.utcnow())
+        embed.add_field(name='Your word has ' + str(spaces) + ' letters.', value=spacesword)
+        hangingman = await ctx.send(embed=embed)
+    else:
+        embed = discord.Embed(title='HangMan with Keengs :skull:',
+                              description='An ongoing game is going on.',
+                              colour=ctx.author.color,
+                              timestamp=datetime.utcnow())
+        await ctx.send(embed=embed)
+    print(hangword)
+    listhangword = list(hangword)
+    print(listhangword)
+    # print(spaces)
+    # print(spacesword)
+
+    return
+
+
+@client.command()
+async def hang(ctx, letter=''):
+    global hangword
+    global spaces
+    global spacesword
+    global hangingman
+    global hanger_author
+    global hangmanemptyspace
+    global hangmanstring
+    global listhangword
+
+    # print(ctx.message)
+    # hanger_author = hanger
+    # name = ctx.message.author.name
+    # id = ctx.message.author.discriminator
+    #  = name+'#'+id
+    if not hangmanover:
+        if letter == '':
+            await ctx.send('Please add a letter dumbdumb.')
+        elif letter in hangword:
+            changehang = [i for i in range(len(listhangword)) if listhangword[i] == letter]
+            print(changehang)
+            for x in changehang:
+                hangmanemptyspace[x] = Apis.letterdict[letter]
+
+            printhangman(hangmanemptyspace)
+            embed = discord.Embed(title='HangMan with Keengs :skull:',
+                                  description='Correct guess ' + format(ctx.message.author.mention) + ', next letter.',
+                                  colour=ctx.author.color,
+                                  timestamp=datetime.utcnow())
+            embed.add_field(name='Your word has ' + str(spaces) + ' letters.', value=hangmanstring)
+            hangmanchecker(hangmanstring)
+            await ctx.message.delete()
+            await hangingman.edit(embed=embed)
+
+        elif str(letter) not in hangword:
+            embed = discord.Embed(title='HangMan with Keengs :skull:',
+                                  description='Wrong guess ' + format(ctx.message.author.mention) + ', try again.',
+                                  colour=ctx.author.color,
+                                  timestamp=datetime.utcnow())
+            embed.add_field(name='Your word has ' + str(spaces) + ' letters.', value=hangmanstring)
+            wrong_letter = Apis.letterdict[letter]
+            await hangingman.add_reaction(wrong_letter)
+            await hangingman.edit(embed=embed)
+            await ctx.message.delete()
+            hangmanchecker(hangmanstring)
+    else:
+        coolmessage = await ctx.send('Start a game to play mf.')
+        await coolmessage.delete()
 
 
 @client.event
