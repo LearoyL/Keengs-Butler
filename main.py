@@ -19,10 +19,15 @@ keep_alive()
 TOKEN = os.environ['TOKEN']
 client = commands.Bot(command_prefix="!", description="A bot to handle all your Keeng needs", help_command=None)
 
-player1 = ""
-player2 = ""
-turn = ""
+player1 = ''
+player2 = ''
+turn = ''
 gameOver = True
+
+hangmanOver = True
+hangmanemptyspace = []
+hangmancount = 0
+letterbase = ''
 
 board = []
 
@@ -228,7 +233,7 @@ async def mkpoll(ctx, question='', *options):
 async def help(ctx):
     valhelp = '!agent - !comp "map" (please specify map :D)'
     apihelp = '!cat - !dog - !meme - !booba'
-    commonhelp = '!flip - !joke - !rude - !mkpoll'
+    commonhelp = '!flip - !joke - !rude - !mkpoll -!quote(!addq)'
     gamehelp = '!tictac (@ 2 people to play) - !hangman - !roll - !numbergen'
     embed = discord.Embed(title='Help Command',
                           description='Here, ' + str(ctx.author.mention) + ', these are the available commands.',
@@ -328,6 +333,47 @@ async def meme(ctx):
     return
 
 
+# Appeding qoute to DB
+def addquote(quote):
+    fileq = open('quoteDB.txt', 'a')
+    fileq.write(quote + '\n')
+    fileq.close()
+    return
+
+
+# Grabbing a line
+def getquote():
+    fileq = open('quoteDB.txt', 'r')
+    list_quote = []
+    for line in fileq:
+        stripline = line.strip()
+        list_quote.append(stripline)
+    print(list_quote)
+    random_quote = random.randrange(0, len(list_quote))
+    global final_quote
+    final_quote = list_quote[random_quote]
+    return final_quote
+
+
+@client.command()
+async def addq(ctx, quote=''):
+    if quote != '':
+        print(quote)
+        addquote(quote)
+        await ctx.send('Quote has been added')
+    elif quote == '':
+        await ctx.send('Add quote mf, "*Insert quote here* - *Author*"')
+    return
+
+
+@client.command()
+async def quote(ctx):
+    getquote()
+    global final_quote
+    await ctx.send(final_quote)
+    return
+
+
 def fixboard(board):
     fakeboard = ''
     for i, x in enumerate(board):
@@ -336,35 +382,6 @@ def fixboard(board):
             fakeboard += '\n'
     finalboard = fakeboard
     return finalboard
-
-
-def fixhangword(hangmanemptyspace, spaces) -> list:
-    emptyemoji = ':blue_square:'
-    i = 0
-    while i < int(spaces):
-        hangmanemptyspace.append(emptyemoji)
-        i += 1
-    print(hangmanemptyspace)
-    return hangmanemptyspace
-
-
-def printhangman(hangmanemptyspace):
-    global hangmanstring
-    hangmanstring1 = ''
-    for i, x in enumerate(hangmanemptyspace):
-        hangmanstring1 += x + ' '
-    hangmanstring = hangmanstring1
-    print(hangmanstring1)
-    return hangmanstring
-
-
-def hangmanchecker(hangmanstring):
-    global hangmanover
-    if ':blue_square:' in hangmanstring:
-        hangmanover = False
-    else:
-        hangmanover = True
-    return hangmanover
 
 
 def guilds():
@@ -577,27 +594,25 @@ async def roll_error(ctx, error):
     await ctx.send(message)
 
 
-hangmanover = True
-hangmanemptyspace = []
-
-
 @client.command()
 async def hangman(ctx):
     global hangword
     global spaces
     global spacesword
     global hangingman
-    global hangmanover
+    global hangmanOver
     global listhangword
 
-    if hangmanover:
-        hangmanover = False
+    if hangmanOver:
+        hangmanOver = False
         hangword = Apis.randomword()
         spaces = len(hangword)
         spacesword = ':blue_square: ' * int(spaces)
         fixhangword(hangmanemptyspace, spaces)
+        await client.change_presence(status=discord.Status.online,
+                                     activity=discord.Game("Hold on Hangman is going on!"))
         embed = discord.Embed(title='HangMan with Keengs :skull:',
-                              description='Guess by !hang "letter"',
+                              description='Guess by **!hang "letter"**',
                               colour=ctx.author.color,
                               timestamp=datetime.utcnow())
         embed.add_field(name='Your word has ' + str(spaces) + ' letters.', value=spacesword)
@@ -607,11 +622,11 @@ async def hangman(ctx):
                               description='An ongoing game is going on.',
                               colour=ctx.author.color,
                               timestamp=datetime.utcnow())
-        await ctx.send(embed=embed)
+        await ctx.send(embed=embed, delete_after=5.0)
     print(hangword)
     listhangword = list(hangword)
-    print(listhangword)
-    # print(spaces)
+    # print(listhangword)
+    # print(space)
     # print(spacesword)
 
     return
@@ -627,16 +642,24 @@ async def hang(ctx, letter=''):
     global hangmanemptyspace
     global hangmanstring
     global listhangword
-
+    global hangmancount
+    global letterbase
+    global hangmanmessage
+    global hangmanOver
     # print(ctx.message)
     # hanger_author = hanger
     # name = ctx.message.author.name
     # id = ctx.message.author.discriminator
     #  = name+'#'+id
-    if not hangmanover:
+    if not hangmanOver:
         if letter == '':
             await ctx.send('Please add a letter dumbdumb.')
+            await ctx.message.delete()
+        elif letter in letterbase:
+            await ctx.send('You already have guessed this letter, try another!', delete_after=5.0)
+            await ctx.message.delete()
         elif letter in hangword:
+            letterbase += letter
             changehang = [i for i in range(len(listhangword)) if listhangword[i] == letter]
             print(changehang)
             for x in changehang:
@@ -648,24 +671,109 @@ async def hang(ctx, letter=''):
                                   colour=ctx.author.color,
                                   timestamp=datetime.utcnow())
             embed.add_field(name='Your word has ' + str(spaces) + ' letters.', value=hangmanstring)
+            embed.add_field(name='Remaining Lives', value='' + str(hangmancount) + '/' + str(spaces), inline=False)
+            embed.set_footer(text='*!hang "letter"*')
             hangmanchecker(hangmanstring)
             await ctx.message.delete()
             await hangingman.edit(embed=embed)
 
         elif str(letter) not in hangword:
+            letterbase += letter
+            hangmancount += 1
+            printhangman(hangmanemptyspace)
+
             embed = discord.Embed(title='HangMan with Keengs :skull:',
                                   description='Wrong guess ' + format(ctx.message.author.mention) + ', try again.',
                                   colour=ctx.author.color,
                                   timestamp=datetime.utcnow())
             embed.add_field(name='Your word has ' + str(spaces) + ' letters.', value=hangmanstring)
+            embed.add_field(name='Remaining Lives', value='' + str(hangmancount) + '/' + str(spaces), inline=False)
+            embed.set_footer(text='*!hang "lettter"*')
             wrong_letter = Apis.letterdict[letter]
             await hangingman.add_reaction(wrong_letter)
             await hangingman.edit(embed=embed)
             await ctx.message.delete()
+            # hangmanlifechecker(spaces,hangmancount)
+            assert hangmanlifechecker(spaces, hangmancount)[1] == hangmanOver
+            embed = discord.Embed(title='HangMan with Keengs :skull:',
+                                  description='Wrong guess ' + format(ctx.message.author.mention) + ', try again.',
+                                  colour=ctx.author.color,
+                                  timestamp=datetime.utcnow())
+            embed.add_field(name='Your word has ' + str(spaces) + ' letters.', value=hangmanstring)
+            embed.add_field(name=hangmessage, value='' + str(hangmancount) + '/' + str(spaces), inline=False)
+            embed.set_footer(text='*!hang "lettter"*')
+            await hangingman.edit(embed=embed)
             hangmanchecker(hangmanstring)
+    if hangmanOver:
+        await ctx.send('Start a game to play mf.', delete_after=5.0)
+
+
+#
+# def hangmanlives(spaces, hangmancount):
+#     global hangmanover
+#     if int(hangmancount) < int(spaces):
+#         hangmanover = False
+#     elif int(hangmancount) == int(spaces):
+#         hangmanover = False
+#     elif int(hangmancount) > int(spaces):
+#         hangmanover = True
+#     return hangmanover
+
+
+@client.command()
+async def hangmanend(ctx):
+    global hangmanOver
+    if hangmanOver:
+        await ctx.send('There are no on going HangMan games', delet_after=5.0)
+        await client.change_presence(status=discord.Status.idle, activity=discord.Game('I AM THE BEST BOT'))
     else:
-        coolmessage = await ctx.send('Start a game to play mf.')
-        await coolmessage.delete()
+        hangmanOver = True
+        await client.change_presence(status=discord.Status.idle, activity=discord.Game('I AM THE BEST BOT'))
+
+
+def fixhangword(hangmanemptyspace, spaces) -> list:
+    emptyemoji = ':blue_square:'
+    i = 0
+    while i < int(spaces):
+        hangmanemptyspace.append(emptyemoji)
+        i += 1
+    # print(hangmanemptyspace)
+    return hangmanemptyspace
+
+
+def printhangman(hangmanemptyspace):
+    global hangmanstring
+    hangmanstring1 = ''
+    for i, x in enumerate(hangmanemptyspace):
+        hangmanstring1 += x + ' '
+    hangmanstring = hangmanstring1
+    # print(hangmanstring1)
+    return hangmanstring
+
+
+def hangmanchecker(hangmanstring):
+    global hangmanOver
+    if ':blue_square:' in hangmanstring:
+        hangmanOver = False
+    else:
+        hangmanOver = True
+    return hangmanOver
+
+
+def hangmanlifechecker(hangmancount, spaces):
+    global hangmanOver
+    global hangmessage
+    hangmessage = ''
+    if hangmancount > int(spaces):
+        hangmanOver = False
+        hangmessage = 'Remaining lives'
+    if hangmancount == int(spaces):
+        hangmanOver = False
+        hangmessage = 'This is your last life!'
+    if hangmancount < int(spaces):
+        hangmanOver = True
+        hangmessage = 'You have lost!.'
+    return hangmessage, hangmanOver
 
 
 @client.event
@@ -690,7 +798,9 @@ async def on_ready():
     return
 
 
+##
 # @client.command()
 # async def Message(ctx) :
 #     await ctx.send('Dummy message')
 client.run(TOKEN)
+
