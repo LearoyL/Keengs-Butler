@@ -362,7 +362,7 @@ async def addq(ctx, quote=''):
         addquote(quote)
         await ctx.send('Quote has been added')
     elif quote == '':
-        await ctx.send('Add quote mf, "*Insert quote here* - *Author*"')
+        await ctx.send('Add quote mf, "*Insert quote here* - *Author* - *Date(m/y)*"')
     return
 
 
