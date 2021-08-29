@@ -335,8 +335,10 @@ async def meme(ctx):
 
 # Appeding qoute to DB
 def addquote(quote):
+    now = datetime.now()
+    d4 = now.strftime("%b-%Y")
     fileq = open('quoteDB.txt', 'a')
-    fileq.write(quote + '\n')
+    fileq.write(quote + ' - ' + d4 + '\n')
     fileq.close()
     return
 
