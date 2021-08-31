@@ -4,6 +4,9 @@ Welcome to the best discord bot to ever be written.
 There is no bot like this on the internet and you can not write one likes in the internet. 
 You can try - but you will fail.
 
+The code is written in Python. all libaries needed to run said code will be imported on start.
+
+
 This bot achieves the impossible, and the unthinkable. 
 
 **PLEASE REFRAIN FROM ASKING QUESTIONS ABOUT SAID BOT/CODE AS I CANT NOT ASNWER THEM.**
@@ -14,4 +17,4 @@ This bot achieves the impossible, and the unthinkable.
 
 
 
-*By using you agree that the author will not held acountable for all damages done to said server , procced with care*
+*By using you agree that the author will not held acountable for all damages done to said server , procced with care*.
