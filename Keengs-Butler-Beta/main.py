@@ -13,6 +13,9 @@ from discord.ext.commands import has_permissions, bot_has_permissions
 # API/Token IMPORTS
 import Apis
 import VALapi
+# from keep_alive import keep_alive
+#
+# keep_alive()
 
 TOKEN = os.environ['TOKEN']
 client = commands.Bot(command_prefix="!", description="A bot to handle all your Keeng needs", help_command=None)
@@ -348,7 +351,6 @@ def getquote():
     for line in fileq:
         stripline = line.strip()
         list_quote.append(stripline)
-    print(list_quote)
     random_quote = random.randrange(0, len(list_quote))
     global final_quote
     final_quote = list_quote[random_quote]
@@ -358,7 +360,6 @@ def getquote():
 @client.command()
 async def addq(ctx, quote=''):
     if quote != '':
-        print(quote)
         addquote(quote)
         await ctx.send('Quote has been added')
     elif quote == '':
@@ -367,11 +368,19 @@ async def addq(ctx, quote=''):
 
 
 @client.command()
-async def quote(ctx):
+async def quote(ctx, specific=''):
     getquote()
     global final_quote
-    await ctx.send(final_quote)
+    if specific == '':
+        await ctx.send(final_quote)
+    elif specific != '':
+        if specific in final_quote.lower():
+            await ctx.send(final_quote)
+        elif specific not in final_quote.lower():
+            await ctx.send('The author specified has no outstanding quotes, give him/her one :).')
+            pass
     return
+
 
 
 def fixboard(board):
