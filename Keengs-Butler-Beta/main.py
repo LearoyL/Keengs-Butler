@@ -357,6 +357,36 @@ def getquote():
     return final_quote
 
 
+# Grab a specific Line of quote
+def get_specific_quote(specific_global):
+    global specific_quote
+    fileq = open('quoteDB.txt', 'r')
+    list_quote = []
+    for line in fileq:
+        stripline = line.strip()
+        list_quote.append(stripline)
+    lowered_list_quote = [x.lower() for x in list_quote]
+    specific_quote = [i for i in lowered_list_quote if specific_global.lower() in i]
+    print(specific_quote)
+    return specific_quote
+
+
+def checking_specific():
+    global specific
+    global final_specific_quote
+    final_specific_quote = ''
+    # lowered_list = [x.lower for x in specific_quote]
+    if len(specific_quote) == 0:
+        final_specific_quote = 'There are no quotes with that person'+specific_global+'. Give them one.'
+    elif len(specific_quote) != 0:
+        final_specific_quote_number = random.randrange(0, len(specific_quote))
+        print(specific_quote)
+        final_specific_quote = specific_quote[final_specific_quote_number]
+        pass
+
+
+
+
 @client.command()
 async def addq(ctx, quote=''):
     if quote != '':
@@ -369,16 +399,20 @@ async def addq(ctx, quote=''):
 
 @client.command()
 async def quote(ctx, specific=''):
+    global specific_quote
+    global specific_global
+    specific_global = specific
     getquote()
     global final_quote
     if specific == '':
         await ctx.send(final_quote)
     elif specific != '':
-        if specific in final_quote.lower():
-            await ctx.send(final_quote)
-        elif specific not in final_quote.lower():
-            await ctx.send('The author specified has no outstanding quotes, give him/her one :).')
-            pass
+        get_specific_quote(specific_global)
+        print(specific)
+        checking_specific()
+        print(final_specific_quote)
+        await ctx.send(final_specific_quote)
+
     return
 
 
