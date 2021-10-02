@@ -829,7 +829,6 @@ async def on_voice_state_update(member, before, after):
     if channel.id == room_id:
         if before.channel is None and after.channel is not None:
             await room_text.send('<@' +str(member.id)+'> Is in the house <@&893870297017630741>')
-            print(member)
             # member joined a voice channel,
         elif before.channel is not None and after.channel is None:
             pass
