@@ -820,6 +820,24 @@ def hangmanlifechecker(hangmancount, spaces):
 
 
 @client.event
+async def on_voice_state_update(member, before, after):
+    channel = before.channel or after.channel
+    role_id = 893870297017630741
+
+    room_id = 893863983004663870
+    room_text = client.get_channel(893864066613923841)
+    if channel.id == room_id:
+        if before.channel is None and after.channel is not None:
+            await room_text.send('<@' +str(member.id)+'> Is in the house <@&893870297017630741>')
+            print(member)
+            # member joined a voice channel,
+        elif before.channel is not None and after.channel is None:
+            pass
+            # member left a voice channel
+    return
+
+
+@client.event
 async def on_ready():
     print(f'{client.user} has connected to Discord!')
     await client.change_presence(status=discord.Status.idle, activity=discord.Game('I AM THE BEST BOT'))
