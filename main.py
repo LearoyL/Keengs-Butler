@@ -377,14 +377,12 @@ def checking_specific():
     final_specific_quote = ''
     # lowered_list = [x.lower for x in specific_quote]
     if len(specific_quote) == 0:
-        final_specific_quote = 'There are no quotes with that person'+specific_global+'. Give them one.'
+        final_specific_quote = 'There are no quotes with that person' + specific_global + '. Give them one.'
     elif len(specific_quote) != 0:
         final_specific_quote_number = random.randrange(0, len(specific_quote))
         print(specific_quote)
         final_specific_quote = specific_quote[final_specific_quote_number]
         pass
-
-
 
 
 @client.command()
@@ -414,7 +412,6 @@ async def quote(ctx, specific=''):
         await ctx.send(final_specific_quote)
 
     return
-
 
 
 def fixboard(board):
@@ -533,7 +530,7 @@ def hackkeengs():  # MY bread and butter function
             names = '**No one is on , sadge....**'
         x = ('...HACKING SERVER...\n'
              '' + serveronoff + '\n'
-                                '**Server-IP: ** 51.254.57.60:27180\n'
+                                '**Server-IP: ** 51.255.235.102:27280\n'
                                 '**Online Player**: ' + str(playernumber) + '/' + str(max_slots) + '\n'
                                                                                                    '' + names + '\n'
                                                                                                                 '' + lastupdate + ' **UTC +3**')
@@ -541,9 +538,9 @@ def hackkeengs():  # MY bread and butter function
         serveronoff = '**SERVER IS DEAD @LEAROY ASAP SAVE IT NOW**'
         x = ('...HACKING SERVER...\n'
              '' + serveronoff + '\n'
-                                '**Server-IP: ** 51.254.57.60:27180\n'
+                                '**Server-IP: ** 51.255.235.102:27280\n'
                                 '**Online Player**: ' + '0' + '/' + '40' + '\n'
-                                                                                                                '' + lastupdate + ' **UTC +3**')
+                                                                           '' + lastupdate + ' **UTC +3**')
 
     # Sending message or not
     # names = '**Connected Players: **'
@@ -847,7 +844,7 @@ async def on_voice_state_update(member, before, after):
     room_text = client.get_channel(893864066613923841)
     if channel.id == room_id:
         if before.channel is None and after.channel is not None:
-            await room_text.send('<@' +str(member.id)+'> Is in the house <@&893870297017630741>')
+            await room_text.send('<@' + str(member.id) + '> Is in the house <@&893870297017630741>')
             # member joined a voice channel,
         elif before.channel is not None and after.channel is None:
             pass
@@ -855,13 +852,13 @@ async def on_voice_state_update(member, before, after):
     return
 
 
-
 @client.event
 async def on_ready():
     print(f'{client.user} has connected to Discord!')
     await client.change_presence(status=discord.Status.idle, activity=discord.Game('I AM THE BEST BOT'))
     # print(guilds()[0].id)                                                                           #Server ID
-    channel = discord.utils.get(client.get_all_channels(), guild__name='UKH SoM UG2', name='server-info')  # Channel name
+    channel = discord.utils.get(client.get_all_channels(), guild__name='UKH SoM UG2',
+                                name='server-info')  # Channel name
     # print(channel)
     global msgid
     msgid = 904414305024352266
@@ -883,4 +880,3 @@ async def on_ready():
 # async def Message(ctx) :
 #     await ctx.send('Dummy message')
 client.run(TOKEN)
-
