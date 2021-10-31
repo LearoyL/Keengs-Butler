@@ -498,7 +498,7 @@ async def on_raw_reaction_add(ctx):
 
 # noinspection DuplicatedCode
 def hackkeengs():  # MY bread and butter function
-    r = requests.get('https://mtxserv.com/api/v1/viewers/game?type=minecraft&ip=game-fr-14.mtxserv.com&port=27180')
+    r = requests.get('https://mtxserv.com/api/v1/viewers/game?type=minecraft&ip=game-fr-43.mtxserv.com&port=27280')
 
     # datetime object containing current date and time
     now = datetime.now()
@@ -508,40 +508,59 @@ def hackkeengs():  # MY bread and butter function
     lastupdate = "**Last Update**  = " + ' ' + dt_string + ''
 
     json_data = r.json()
+    print(json_data)
     is_online = json_data['is_online']
     # ip = json_data ['ip']
     # host_name = json_data ['params']['host_name']
     # joinlink = json_data ['params']['joinlink']
-    max_slots = json_data['params']['max_slots']
-    players = json_data['params']['players']
+    # max_slots = json_data['params']['max_slots']
+    # players = json_data['params']['players']
     # print(json_data)
 
     # if server is online or offine - serveronoff
 
     if is_online:
         serveronoff = '**Server Online**'
+        max_slots = json_data['params']['max_slots']
+        players = json_data['params']['players']
+        playernumber = len(players)
+        names = '**Connected Players: **'
+        if playernumber > 0:
+            for player in players:
+                names += player['player'] + ' **-** '
+            names = names[:-7]
+        else:
+            names = '**No one is on , sadge....**'
+        x = ('...HACKING SERVER...\n'
+             '' + serveronoff + '\n'
+                                '**Server-IP: ** 51.254.57.60:27180\n'
+                                '**Online Player**: ' + str(playernumber) + '/' + str(max_slots) + '\n'
+                                                                                                   '' + names + '\n'
+                                                                                                                '' + lastupdate + ' **UTC +3**')
     else:
-        serveronoff = '**SERVER IS FUCKING DEAD @LEAROY ASAP SAVE IT NOW**'
-    # Player number
+        serveronoff = '**SERVER IS DEAD @LEAROY ASAP SAVE IT NOW**'
+        x = ('...HACKING SERVER...\n'
+             '' + serveronoff + '\n'
+                                '**Server-IP: ** 51.254.57.60:27180\n'
+                                '**Online Player**: ' + '0' + '/' + '40' + '\n'
+                                                                                                                '' + lastupdate + ' **UTC +3**')
 
-    playernumber = len(players)
     # Sending message or not
-
-    names = '**Connected Players: **'
-    if playernumber > 0:
-        for player in players:
-            names += player['player'] + ' **-** '
-        names = names[:-7]
-    else:
-        names = '**No one is on , sadge....GET ON YOU DUMBASS**'
+    # names = '**Connected Players: **'
+    # if playernumber > 0:
+    #     for player in players:
+    #         names += player['player'] + ' **-** '
+    #     names = names[:-7]
+    # else:
+    #     names = '**No one is on , sadge....**'
     # Actual code
 
-    x = ('...HACKING SERVER...\n'
-         '' + serveronoff + '\n'
-                            '**Server-IP: ** 51.254.57.60:27180\n'
-                            '**Online Player**: ' + str(playernumber) + '/' + str(max_slots) + '\n'
-                                                                                               '' + names + '\n'
-                                                                                                            '' + lastupdate + ' **UTC +3**')
+    # x = ('...HACKING SERVER...\n'
+    #      '' + serveronoff + '\n'
+    #                         '**Server-IP: ** 51.254.57.60:27180\n'
+    #                         '**Online Player**: ' + str(playernumber) + '/' + str(max_slots) + '\n'
+    #                                                                                            '' + names + '\n'
+    #                                                                                                         '' + lastupdate + ' **UTC +3**')
     return x
 
 
@@ -836,17 +855,18 @@ async def on_voice_state_update(member, before, after):
     return
 
 
+
 @client.event
 async def on_ready():
     print(f'{client.user} has connected to Discord!')
     await client.change_presence(status=discord.Status.idle, activity=discord.Game('I AM THE BEST BOT'))
     # print(guilds()[0].id)                                                                           #Server ID
-    channel = discord.utils.get(client.get_all_channels(), guild__name='Keengs', name='server-info')  # Channel name
+    channel = discord.utils.get(client.get_all_channels(), guild__name='UKH SoM UG2', name='server-info')  # Channel name
     # print(channel)
     global msgid
-    msgid = 855148407302651924
+    msgid = 904414305024352266
     # global dumbmessage
-    # dumbmessage = await channel.fetch_message(msgid)
+    dumbmessage = await channel.fetch_message(msgid)
     # print (dumbmessage.content)
     global msglist
     msglist = channel.history(limit=1)
@@ -854,7 +874,7 @@ async def on_ready():
     # print(msglist)
     client.get_channel(852117601803042868)
     # print(Channelname)
-    # await dumbmessage.add_reaction('🔄')x
+    # await dumbmessage.add_reaction('🔄')
     return
 
 
