@@ -505,7 +505,6 @@ def hackkeengs():  # MY bread and butter function
     lastupdate = "**Last Update**  = " + ' ' + dt_string + ''
 
     json_data = r.json()
-    print(json_data)
     is_online = json_data['is_online']
     # ip = json_data ['ip']
     # host_name = json_data ['params']['host_name']
