@@ -1,8 +1,66 @@
 import json
 import random
 import urllib.request
+from datetime import datetime
 
 import requests
+
+
+# noinspection DuplicatedCode
+def hackkeengs():  # MY bread and butter function
+    r = requests.get('https://mtxserv.com/api/v1/viewers/game?type=minecraft&ip=game-fr-43.mtxserv.com&port=27280')
+
+    # datetime object containing current date and time
+    now = datetime.now()
+
+    # dd/mm/YY H:M:S
+    dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
+    dt2 = str(dt_string)
+    lastupdate = "**Last Update**  = " + ' ' + dt_string + ''
+
+    json_data = r.json()
+    is_online = json_data['is_online']
+    # ip = json_data ['ip']
+    # host_name = json_data ['params']['host_name']
+    # joinlink = json_data ['params']['joinlink']
+    # max_slots = json_data['params']['max_slots']
+    # players = json_data['params']['players']
+    # print(json_data)
+
+    # if server is online or offine - serveronoff
+
+    if is_online:
+        serveronoff = 'Server Online'
+        max_slots = json_data['params']['max_slots']
+        players = json_data['params']['players']
+        playernumber = len(players)
+        names = '**Connected Players: **'
+        if playernumber > 0:
+            for player in players:
+                names += player['player'] + ' **-** '
+            names = names[:-7]
+        else:
+            names = '**No one is on , sadge....**'
+        x = ('...HACKING SERVER...\n'
+             '' + serveronoff + '\n'
+                                '**Server-IP: ** 51.255.235.102:27280\n'
+                                '**Online Player**: ' + str(playernumber) + '/' + str(max_slots) + '\n'
+                                                                                                   '' + names + '\n'
+                                                                                                                '' + lastupdate + ' **UTC +3**')
+        serverlsit = [serveronoff, playernumber, max_slots, names, lastupdate]
+    else:
+        serveronoff = 'SERVER IS DEAD @LEAROY ASAP SAVE IT NOW'
+        playernumber = 0
+        max_slots = 'null'
+        names = 'null'
+        x = ('...HACKING SERVER...\n'
+             '' + serveronoff + '\n'
+                                '**Server-IP: ** 51.255.235.102:27280\n'
+                                '**Online Player**: ' + '0' + '/' + '40' + '\n'
+                                                                           '' + lastupdate + ' **UTC +3**')
+        serverlsit = [serveronoff, playernumber, max_slots, names, dt2]
+
+    return serverlsit
 
 
 # Coin Flipper

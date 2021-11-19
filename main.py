@@ -6,7 +6,6 @@ from datetime import datetime
 
 # DISCORD IMPORTS
 import discord
-import requests
 from discord.ext import commands
 from discord.ext.commands import has_permissions, bot_has_permissions
 
@@ -486,88 +485,30 @@ async def on_raw_reaction_add(ctx):
 
         await client.change_presence(status=discord.Status.online, activity=discord.Game('Running Server '
                                                                                          'Refresh'))
-        x = hackkeengs()
+        serverlist = Apis.hackkeengs()
+        embed = discord.Embed(title='**UKH** Minecraft Server!', description='',
+                              colour=0x9b59b6,
+                              timestamp=datetime.utcnow())
+        embed.add_field(name='Server Status:', value=serverlist[0], inline=False)
+        embed.add_field(name='Sever IP:', value='51.255.235.102:27280', inline=False)
+        embed.add_field(name='Players:', value='' + str(serverlist[1]) + '/' + str(serverlist[2]) + '', inline=False)
+        embed.add_field(name='Online Players:', value=serverlist[3], inline=False)
+
+
         time.sleep(2)  # Sleeping for 1 seconds
         await client.change_presence(status=discord.Status.idle, activity=discord.Game('I AM THE BEST BOT'))
-        await message.edit(content=x)
+        await message.edit(embed = embed)
         return
 
-
-# noinspection DuplicatedCode
-def hackkeengs():  # MY bread and butter function
-    r = requests.get('https://mtxserv.com/api/v1/viewers/game?type=minecraft&ip=game-fr-43.mtxserv.com&port=27280')
-
-    # datetime object containing current date and time
-    now = datetime.now()
-
-    # dd/mm/YY H:M:S
-    dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
-    lastupdate = "**Last Update**  = " + ' ' + dt_string + ''
-
-    json_data = r.json()
-    is_online = json_data['is_online']
-    # ip = json_data ['ip']
-    # host_name = json_data ['params']['host_name']
-    # joinlink = json_data ['params']['joinlink']
-    # max_slots = json_data['params']['max_slots']
-    # players = json_data['params']['players']
-    # print(json_data)
-
-    # if server is online or offine - serveronoff
-
-    if is_online:
-        serveronoff = '**Server Online**'
-        max_slots = json_data['params']['max_slots']
-        players = json_data['params']['players']
-        playernumber = len(players)
-        names = '**Connected Players: **'
-        if playernumber > 0:
-            for player in players:
-                names += player['player'] + ' **-** '
-            names = names[:-7]
-        else:
-            names = '**No one is on , sadge....**'
-        x = ('...HACKING SERVER...\n'
-             '' + serveronoff + '\n'
-                                '**Server-IP: ** 51.255.235.102:27280\n'
-                                '**Online Player**: ' + str(playernumber) + '/' + str(max_slots) + '\n'
-                                                                                                   '' + names + '\n'
-                                                                                                                '' + lastupdate + ' **UTC +3**')
-    else:
-        serveronoff = '**SERVER IS DEAD @LEAROY ASAP SAVE IT NOW**'
-        x = ('...HACKING SERVER...\n'
-             '' + serveronoff + '\n'
-                                '**Server-IP: ** 51.255.235.102:27280\n'
-                                '**Online Player**: ' + '0' + '/' + '40' + '\n'
-                                                                           '' + lastupdate + ' **UTC +3**')
-
-    # Sending message or not
-    # names = '**Connected Players: **'
-    # if playernumber > 0:
-    #     for player in players:
-    #         names += player['player'] + ' **-** '
-    #     names = names[:-7]
-    # else:
-    #     names = '**No one is on , sadge....**'
-    # Actual code
-
-    # x = ('...HACKING SERVER...\n'
-    #      '' + serveronoff + '\n'
-    #                         '**Server-IP: ** 51.254.57.60:27180\n'
-    #                         '**Online Player**: ' + str(playernumber) + '/' + str(max_slots) + '\n'
-    #                                                                                            '' + names + '\n'
-    #                                                                                                         '' + lastupdate + ' **UTC +3**')
-    return x
+#
+# @client.command()  # If refresh function for keengs does not work (manual)
+# async def keengs(ctx):
+#     x = Apis.hackkeengs()
+#     await ctx.send(x)
+#     return
 
 
-@client.command()  # If refresh function for keengs does not work (manual)
-async def keengs(ctx):
-    x = hackkeengs()
-    await ctx.send(x)
-    return
-
-
-@client.command()  # A command to show all map availbale
+@client.command()
 async def valmap(ctx):
     await ctx.send('Haven - Split - Bind - IceBox - Breeze - Acesnt ')
 
@@ -764,18 +705,6 @@ async def hang(ctx, letter=''):
             hangmanchecker(hangmanstring)
     if hangmanOver:
         await ctx.send('Start a game to play mf.', delete_after=5.0)
-
-
-#
-# def hangmanlives(spaces, hangmancount):
-#     global hangmanover
-#     if int(hangmancount) < int(spaces):
-#         hangmanover = False
-#     elif int(hangmancount) == int(spaces):
-#         hangmanover = False
-#     elif int(hangmancount) > int(spaces):
-#         hangmanover = True
-#     return hangmanover
 
 
 @client.command()
