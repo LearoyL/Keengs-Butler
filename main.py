@@ -290,6 +290,10 @@ async def on_message(message):
     elif 'gay' in message.content.lower():
         await message.channel.send('you are gae')
 
+    elif 'poop' + 'gay' in message.content.lower():
+        await message.channel.send('Poopy pants :poop:' + '\n'
+                                                          'you are gae')
+
     role = discord.utils.get(message.guild.roles, name="Cora-installed")
     role2 = discord.utils.get(message.guild.roles, name="rassan")
     role3 = discord.utils.get(message.guild.roles, name="Compliment")
@@ -494,11 +498,11 @@ async def on_raw_reaction_add(ctx):
         embed.add_field(name='Players:', value='' + str(serverlist[1]) + '/' + str(serverlist[2]) + '', inline=False)
         embed.add_field(name='Online Players:', value=serverlist[3], inline=False)
 
-
         time.sleep(2)  # Sleeping for 1 seconds
         await client.change_presence(status=discord.Status.idle, activity=discord.Game('I AM THE BEST BOT'))
-        await message.edit(embed = embed)
+        await message.edit(embed=embed)
         return
+
 
 #
 # @client.command()  # If refresh function for keengs does not work (manual)
