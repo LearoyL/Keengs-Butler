@@ -284,15 +284,13 @@ async def on_message(message):
     if message.author == client.user:
         return
 
-    if 'poop' in message.content.lower():
-        await message.channel.send('Poopy pants :poop:')
-
+    elif ('poop' in message.content.lower()) and ('gay' in message.content.lower()):
+        x = 'Poopy pants :poop:' + '\n' + 'you are gae'
+    elif 'poop' in message.content.lower():
+        x = 'Poopy pants :poop:'
     elif 'gay' in message.content.lower():
-        await message.channel.send('you are gae')
-
-    elif 'poop' + 'gay' in message.content.lower():
-        await message.channel.send('Poopy pants :poop:' + '\n'
-                                                          'you are gae')
+        x = 'you are gae'
+    await message.channel.send(x)
 
     role = discord.utils.get(message.guild.roles, name="Cora-installed")
     role2 = discord.utils.get(message.guild.roles, name="rassan")
