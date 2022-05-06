@@ -446,7 +446,6 @@ async def rude(ctx):
 async def booba(ctx):
     await ctx.send(Apis.booba(), delete_after=3)
     await ctx.message.delete()
-
     return
 
 

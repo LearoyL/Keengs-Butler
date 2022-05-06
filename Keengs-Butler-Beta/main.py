@@ -6,16 +6,15 @@ from datetime import datetime
 
 # DISCORD IMPORTS
 import discord
-import requests
 from discord.ext import commands
 from discord.ext.commands import has_permissions, bot_has_permissions
 
 # API/Token IMPORTS
 import Apis
 import VALapi
-# from keep_alive import keep_alive
-#
-# keep_alive()
+from keep_alive import keep_alive
+
+keep_alive()
 
 TOKEN = os.environ['TOKEN']
 client = commands.Bot(command_prefix="!", description="A bot to handle all your Keeng needs", help_command=None)
@@ -285,11 +284,13 @@ async def on_message(message):
     if message.author == client.user:
         return
 
-    if 'poop' in message.content.lower():
-        await message.channel.send('Poopy pants :poop:')
-
+    elif ('poop' in message.content.lower()) and ('gay' in message.content.lower()):
+        x = 'Poopy pants :poop:' + '\n' + 'you are gae'
+    elif 'poop' in message.content.lower():
+        x = 'Poopy pants :poop:'
     elif 'gay' in message.content.lower():
-        await message.channel.send('you are gae')
+        x = 'you are gae'
+    await message.channel.send(x)
 
     role = discord.utils.get(message.guild.roles, name="Cora-installed")
     role2 = discord.utils.get(message.guild.roles, name="rassan")
@@ -377,14 +378,12 @@ def checking_specific():
     final_specific_quote = ''
     # lowered_list = [x.lower for x in specific_quote]
     if len(specific_quote) == 0:
-        final_specific_quote = 'There are no quotes with that person'+specific_global+'. Give them one.'
+        final_specific_quote = 'There are no quotes with that person' + specific_global + '. Give them one.'
     elif len(specific_quote) != 0:
         final_specific_quote_number = random.randrange(0, len(specific_quote))
         print(specific_quote)
         final_specific_quote = specific_quote[final_specific_quote_number]
         pass
-
-
 
 
 @client.command()
@@ -414,7 +413,6 @@ async def quote(ctx, specific=''):
         await ctx.send(final_specific_quote)
 
     return
-
 
 
 def fixboard(board):
@@ -448,7 +446,6 @@ async def rude(ctx):
 async def booba(ctx):
     await ctx.send(Apis.booba(), delete_after=3)
     await ctx.message.delete()
-
     return
 
 
@@ -489,70 +486,30 @@ async def on_raw_reaction_add(ctx):
 
         await client.change_presence(status=discord.Status.online, activity=discord.Game('Running Server '
                                                                                          'Refresh'))
-        x = hackkeengs()
+        serverlist = Apis.hackkeengs()
+        embed = discord.Embed(title='**UKH** Minecraft Server!', description='',
+                              colour=0x9b59b6,
+                              timestamp=datetime.utcnow())
+        embed.add_field(name='Server Status:', value=serverlist[0], inline=False)
+        embed.add_field(name='Sever IP:', value='51.255.235.102:27280', inline=False)
+        embed.add_field(name='Players:', value='' + str(serverlist[1]) + '/' + str(serverlist[2]) + '', inline=False)
+        embed.add_field(name='Online Players:', value=serverlist[3], inline=False)
+
         time.sleep(2)  # Sleeping for 1 seconds
         await client.change_presence(status=discord.Status.idle, activity=discord.Game('I AM THE BEST BOT'))
-        await message.edit(content=x)
+        await message.edit(embed=embed)
         return
 
 
-# noinspection DuplicatedCode
-def hackkeengs():  # MY bread and butter function
-    r = requests.get('https://mtxserv.com/api/v1/viewers/game?type=minecraft&ip=game-fr-14.mtxserv.com&port=27180')
-
-    # datetime object containing current date and time
-    now = datetime.now()
-
-    # dd/mm/YY H:M:S
-    dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
-    lastupdate = "**Last Update**  = " + ' ' + dt_string + ''
-
-    json_data = r.json()
-    is_online = json_data['is_online']
-    # ip = json_data ['ip']
-    # host_name = json_data ['params']['host_name']
-    # joinlink = json_data ['params']['joinlink']
-    max_slots = json_data['params']['max_slots']
-    players = json_data['params']['players']
-    # print(json_data)
-
-    # if server is online or offine - serveronoff
-
-    if is_online:
-        serveronoff = '**Server Online**'
-    else:
-        serveronoff = '**SERVER IS FUCKING DEAD @LEAROY ASAP SAVE IT NOW**'
-    # Player number
-
-    playernumber = len(players)
-    # Sending message or not
-
-    names = '**Connected Players: **'
-    if playernumber > 0:
-        for player in players:
-            names += player['player'] + ' **-** '
-        names = names[:-7]
-    else:
-        names = '**No one is on , sadge....GET ON YOU DUMBASS**'
-    # Actual code
-
-    x = ('...HACKING SERVER...\n'
-         '' + serveronoff + '\n'
-                            '**Server-IP: ** 51.254.57.60:27180\n'
-                            '**Online Player**: ' + str(playernumber) + '/' + str(max_slots) + '\n'
-                                                                                               '' + names + '\n'
-                                                                                                            '' + lastupdate + ' **UTC +3**')
-    return x
+#
+# @client.command()  # If refresh function for keengs does not work (manual)
+# async def keengs(ctx):
+#     x = Apis.hackkeengs()
+#     await ctx.send(x)
+#     return
 
 
-@client.command()  # If refresh function for keengs does not work (manual)
-async def keengs(ctx):
-    x = hackkeengs()
-    await ctx.send(x)
-    return
-
-
-@client.command()  # A command to show all map availbale
+@client.command()
 async def valmap(ctx):
     await ctx.send('Haven - Split - Bind - IceBox - Breeze - Acesnt ')
 
@@ -751,18 +708,6 @@ async def hang(ctx, letter=''):
         await ctx.send('Start a game to play mf.', delete_after=5.0)
 
 
-#
-# def hangmanlives(spaces, hangmancount):
-#     global hangmanover
-#     if int(hangmancount) < int(spaces):
-#         hangmanover = False
-#     elif int(hangmancount) == int(spaces):
-#         hangmanover = False
-#     elif int(hangmancount) > int(spaces):
-#         hangmanover = True
-#     return hangmanover
-
-
 @client.command()
 async def hangmanend(ctx):
     global hangmanOver
@@ -828,8 +773,7 @@ async def on_voice_state_update(member, before, after):
     room_text = client.get_channel(893864066613923841)
     if channel.id == room_id:
         if before.channel is None and after.channel is not None:
-            await room_text.send('<@' +str(member.id)+'> Is in the house <@&893870297017630741>')
-            print(member)
+            await room_text.send('<@' + str(member.id) + '> Is in the house <@&893870297017630741>')
             # member joined a voice channel,
         elif before.channel is not None and after.channel is None:
             pass
@@ -842,12 +786,13 @@ async def on_ready():
     print(f'{client.user} has connected to Discord!')
     await client.change_presence(status=discord.Status.idle, activity=discord.Game('I AM THE BEST BOT'))
     # print(guilds()[0].id)                                                                           #Server ID
-    channel = discord.utils.get(client.get_all_channels(), guild__name='Keengs', name='server-info')  # Channel name
+    channel = discord.utils.get(client.get_all_channels(), guild__name='UKH SoM UG2',
+                                name='server-info')  # Channel name
     # print(channel)
     global msgid
-    msgid = 855148407302651924
+    msgid = 904414305024352266
     # global dumbmessage
-    # dumbmessage = await channel.fetch_message(msgid)
+    dumbmessage = await channel.fetch_message(msgid)
     # print (dumbmessage.content)
     global msglist
     msglist = channel.history(limit=1)
@@ -855,7 +800,7 @@ async def on_ready():
     # print(msglist)
     client.get_channel(852117601803042868)
     # print(Channelname)
-    # await dumbmessage.add_reaction('🔄')x
+    # await dumbmessage.add_reaction('🔄')
     return
 
 
@@ -864,4 +809,3 @@ async def on_ready():
 # async def Message(ctx) :
 #     await ctx.send('Dummy message')
 client.run(TOKEN)
-
