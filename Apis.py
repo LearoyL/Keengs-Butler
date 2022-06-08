@@ -1,5 +1,6 @@
 import json
 import random
+import NSFWlist
 import urllib.request
 from datetime import datetime
 
@@ -137,11 +138,7 @@ def catapi():
 
 # NSFW API
 def booba():
-    cat = [
-        'NSFW',
-        'Hentai',
-        'rule34'
-    ]
+    cat = NSFWlist.doggy
     randomnum = random.randrange(0, len(cat))
     r = requests.get('https://meme-api.herokuapp.com/gimme/' + cat[randomnum])
     json_data = r.json()
