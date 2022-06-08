@@ -1,0 +1,23 @@
+doggy = [
+    'NSFW',
+    'Hentai',
+    'rule34',
+    'pussy',
+    'OnlyFans',
+    'gonewild',
+    'BreedingMaterial',
+    'Nudes',
+    'collegesluts',
+    'boltedontits',
+    'celebnsfw',
+    'NSFW_GIF',
+    'bodyperfection',
+    'bigtitsinbikinis',
+    'bigasses',
+    'adorableporn',
+    'OnOff',
+    'Hotwife',
+    'milf',
+    'DadWouldBeProud',
+    'LipsThatGrip'
+]
