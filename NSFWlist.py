@@ -3,7 +3,7 @@ doggy = [
     'Hentai',
     'rule34',
     'pussy',
-    'OnlyFans',
+    'OnlyFans101',
     'gonewild',
     'BreedingMaterial',
     'Nudes',
