@@ -284,12 +284,16 @@ async def on_message(message):
     if message.author == client.user:
         return
 
-    elif ('poop' in message.content.lower()) and ('gay' in message.content.lower()):
+    elif ('poop' in message.content.lower()) and ('gay' in message.content.lower()) and ('no u' in message.content.lower()) and ('fuck you' in message.content.lower()):
         x = 'Poopy pants :poop:' + '\n' + 'you are gae'
     elif 'poop' in message.content.lower():
         x = 'Poopy pants :poop:'
     elif 'gay' in message.content.lower():
         x = 'you are gae'
+    elif 'no u' in message.content.lower():
+        x = 'No u!'
+    elif 'fuck you' in message.content.lower():
+        x = 'No FUCK you!'
     await message.channel.send(x)
 
     role = discord.utils.get(message.guild.roles, name="Cora-installed")
@@ -808,4 +812,5 @@ async def on_ready():
 # @client.command()
 # async def Message(ctx) :
 #     await ctx.send('Dummy message')
-client.run(TOKEN)
+my_secret = os.environ['w']
+client.run(my_secret)
