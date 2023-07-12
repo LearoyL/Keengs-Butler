@@ -813,5 +813,5 @@ async def on_ready():
 # @client.command()
 # async def Message(ctx) :
 #     await ctx.send('Dummy message')
-my_secret = os.environ['w']
+my_secret = os.environ['TOKEN']
 client.run(my_secret)
