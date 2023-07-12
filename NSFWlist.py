@@ -1,23 +1,10 @@
 doggy = [
-    'NSFW',
-    'Hentai',
-    'rule34',
-    'pussy',
-    'OnlyFans101',
     'gonewild',
-    'BreedingMaterial',
-    'Nudes',
-    'collegesluts',
-    'boltedontits',
-    'celebnsfw',
-    'NSFW_GIF',
-    'bodyperfection',
-    'bigtitsinbikinis',
-    'bigasses',
-    'adorableporn',
-    'OnOff',
-    'Hotwife',
-    'milf',
-    'DadWouldBeProud',
-    'LipsThatGrip'
-]
+    'nsfw',
+    'jigglefuck',
+    'ImGoingToHellForThis',
+    'realgirls',
+    'nsfwceleb',
+    'cumsluts'
+    ]
+

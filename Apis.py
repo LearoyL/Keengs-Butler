@@ -2,6 +2,7 @@ import json
 import random
 import NSFWlist
 import urllib.request
+
 from datetime import datetime
 
 import requests
@@ -145,10 +146,10 @@ def booba():
     title = json_data['title']
     url = json_data['url']
 
-    pron = ('**' + title + '**\n'
+    porn = ('**' + title + '**\n'
             + url)
 
-    return pron
+    return porn
 
 
 # NASA API

@@ -2,6 +2,7 @@
 import os
 import random
 import time
+import boobaapi
 from datetime import datetime
 
 # DISCORD IMPORTS
@@ -444,7 +445,7 @@ async def rude(ctx):
 @client.command()  # Boris Wanted Porn
 @bot_has_permissions(manage_messages=True)
 async def booba(ctx):
-    await ctx.send(Apis.booba(), delete_after=3)
+    await ctx.send(boobaapi.boooba(), delete_after=10)
     await ctx.message.delete()
     return
 
